@@ -87,7 +87,20 @@ export default function Footer() {
             </p>
           </div>
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2 text-[11px]">
-            <p>© {new Date().getFullYear()} LoanFit AI. All rights reserved.</p>
+            <div className="flex items-center gap-3">
+              <img
+                src="/images/adarsh_karpe.jpg"
+                alt="Adarsh Karpe"
+                className="w-8 h-8 rounded-full object-cover object-top ring-2 ring-blue-500/40 shadow-sm"
+              />
+              <div>
+                <p className="text-slate-200 font-semibold flex items-center gap-1.5">
+                  <span className="text-blue-400 font-normal">Technical Head:</span>
+                  <span>Adarsh Karpe</span>
+                </p>
+                <p className="text-slate-500 text-[10px]">© {new Date().getFullYear()} LoanFit AI. All rights reserved.</p>
+              </div>
+            </div>
             <p className="text-slate-400">Built for precision, transparency, and borrower control.</p>
           </div>
         </div>

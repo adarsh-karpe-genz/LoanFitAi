@@ -273,6 +273,32 @@ export default function DashboardPage() {
           </Link>
         </div>
       )}
+
+      {/* Technical Leadership Badge */}
+      <div className="p-4 rounded-2xl bg-white border border-slate-200/90 flex items-center justify-between shadow-xs">
+        <div className="flex items-center gap-3">
+          <img
+            src="/images/adarsh_karpe.jpg"
+            alt="Adarsh Karpe"
+            className="w-10 h-10 rounded-full object-cover object-top ring-2 ring-blue-600/30 shadow-sm"
+          />
+          <div>
+            <h4 className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
+              <span>Adarsh Karpe</span>
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-blue-50 text-blue-700 border border-blue-200">
+                Technical Head
+              </span>
+            </h4>
+            <p className="text-[11px] text-slate-500">
+              LoanFit AI Platform Architecture & Decision Intelligence
+            </p>
+          </div>
+        </div>
+        <div className="hidden sm:flex items-center gap-2 text-xs font-semibold text-slate-600">
+          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+          <span>Systems Operational</span>
+        </div>
+      </div>
     </div>
   );
 }
