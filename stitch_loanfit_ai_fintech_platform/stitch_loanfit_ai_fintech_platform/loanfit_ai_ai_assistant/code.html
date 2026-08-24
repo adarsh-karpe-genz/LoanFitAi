@@ -1,0 +1,185 @@
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "inverse-primary": "#bec6e0", "secondary-fixed-dim": "#b7c8e1", "inverse-on-surface": "#f3f0f2", "tertiary": "#000000", "on-error-container": "#93000a", "surface-container": "#f0edef", "tertiary-fixed": "#e1e0ff", "surface-dim": "#dcd9db", "error-container": "#ffdad6", "on-tertiary-container": "#7073ff", "secondary": "#505f76", "secondary-fixed": "#d3e4fe", "on-error": "#ffffff", "on-secondary-container": "#54647a", "outline": "#76777d", "on-tertiary": "#ffffff", "error": "#ba1a1a", "surface-variant": "#e4e2e4", "primary-container": "#131b2e", "primary-fixed-dim": "#bec6e0", "tertiary-container": "#07006c", "on-secondary": "#ffffff", "on-surface-variant": "#45464d", "surface": "#fcf8fa", "background": "#fcf8fa", "on-primary-fixed-variant": "#3f465c", "on-primary-container": "#7c839b", "surface-bright": "#fcf8fa", "on-secondary-fixed-variant": "#38485d", "surface-container-low": "#f6f3f5", "secondary-container": "#d0e1fb", "on-primary": "#ffffff", "inverse-surface": "#303032", "tertiary-fixed-dim": "#c0c1ff", "on-primary-fixed": "#131b2e", "on-surface": "#1b1b1d", "surface-tint": "#565e74", "primary-fixed": "#dae2fd", "surface-container-highest": "#e4e2e4", "on-secondary-fixed": "#0b1c30", "on-tertiary-fixed-variant": "#2f2ebe", "on-tertiary-fixed": "#07006c", "outline-variant": "#c6c6cd", "on-background": "#1b1b1d", "primary": "#000000", "surface-container-lowest": "#ffffff", "surface-container-high": "#eae7e9" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "container-max": "1280px", "stack-gap": "16px", "margin-mobile": "20px", "unit": "4px", "gutter": "24px", "margin-desktop": "40px" }, "fontFamily": { "caption": ["Inter"], "display-lg": ["Plus Jakarta Sans"], "headline-md": ["Plus Jakarta Sans"], "body-lg": ["Inter"], "display-lg-mobile": ["Plus Jakarta Sans"], "body-md": ["Inter"], "label-sm": ["Inter"] }, "fontSize": { "caption": ["12px", { "lineHeight": "1.4", "fontWeight": "500" }], "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }], "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }], "display-lg-mobile": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }], "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }], "label-sm": ["13px", { "lineHeight": "1", "letterSpacing": "0.03em", "fontWeight": "600" }] } } } };</script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Plus+Jakarta+Sans:wght@100..900&display=swap" rel="stylesheet"/></head><body class="bg-background font-body-md text-on-surface"><header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-outline-variant"><div class="h-20 max-w-container-max mx-auto px-margin-mobile lg:px-margin-desktop flex items-center justify-between"><div class="flex items-center gap-2"><img alt="LoanFit AI Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVqiJyQMK2VCPJrENYaGRenElebpcPZFXg1GLnGbVAXVtDSWGaRUIL-ncqTKMhDIfR5nQ5vqvWgf0JxsvzEqZ2XtmyymHNgMYoJqcKeIYZMadZmpGUff4WH6sqikAZvbLKavB1m-fn0fzPBiDBfnG9gNVvnfzJzVqGjEhq4nK-isHSBjqxIMXWvgslDEnmyzx8eGMKUgqTaSu_Bes4Z537UY_rqL5_AbOLgnOZXTHppfVF5JAaumlv"/><span class="font-headline-md text-headline-md text-primary hidden sm:block">LoanFit AI</span></div><nav class="hidden md:flex items-center bg-surface-container-low px-2 py-1.5 rounded-full gap-1" data-active-classes="bg-white shadow-sm text-primary"><a class="px-6 py-2 rounded-full text-label-sm font-label-sm text-on-surface-variant hover:text-on-surface transition-all" data-path="home" href="#">Home</a><a class="px-6 py-2 rounded-full text-label-sm font-label-sm text-on-surface-variant hover:text-on-surface transition-all" data-path="dashboard" href="#">Dashboard</a><a class="px-6 py-2 rounded-full text-label-sm font-label-sm text-on-surface-variant hover:text-on-surface transition-all" data-path="comparison" href="#">Comparison</a><a aria-current="page" class="px-6 py-2 rounded-full font-label-sm transition-all bg-white shadow-sm text-primary" data-path="ai-assistant" href="#">AI Assistant</a></nav><div class="flex items-center gap-4"><button class="text-label-sm font-label-sm text-on-surface-variant hover:text-on-surface">Login</button><button class="bg-primary text-on-primary px-6 py-2 rounded-full text-label-sm font-label-sm hover:scale-[1.02] transition-transform">Sign Up</button></div></div></header><main class="pt-20 w-full"><div class="flex flex-col w-full px-margin-mobile lg:px-margin-desktop max-w-container-max mx-auto py-8">
+<div class="flex flex-col lg:flex-row gap-gutter w-full min-h-[calc(100vh-200px)]">
+<!-- Main Content Area: AI Recommendations (70%) -->
+<div class="w-full lg:w-[70%] flex flex-col gap-stack-gap">
+<div class="flex items-center justify-between mb-2">
+<div>
+<h1 class="text-display-lg-mobile lg:text-display-lg font-display-lg-mobile lg:font-display-lg text-primary">Your Optimal Fit</h1>
+<p class="text-body-md font-body-md text-on-surface-variant mt-2">Based on your prioritization of total cost and high approval odds.</p>
+</div>
+</div>
+<!-- Top Recommended Loan Card -->
+<div class="relative w-full bg-surface-container-lowest rounded-3xl p-8 shadow-xl shadow-slate-200/50 flex flex-col md:flex-row gap-8 overflow-hidden group hover:shadow-2xl transition-shadow duration-500">
+<!-- Decorative background elements -->
+<div class="absolute -right-20 -top-20 w-64 h-64 bg-tertiary-fixed/30 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity pointer-events-none"></div>
+<div class="absolute -bottom-10 -left-10 w-40 h-40 bg-secondary-fixed/30 rounded-full blur-2xl opacity-40 pointer-events-none"></div>
+<!-- Left: Core Recommendation -->
+<div class="relative z-10 flex-1 border-r border-outline-variant/30 pr-0 md:pr-8 flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-3 mb-6">
+<span class="bg-tertiary-container text-on-tertiary-container px-3 py-1 rounded-full text-caption font-caption tracking-wider uppercase shadow-sm">Top Match</span>
+<span class="text-caption font-caption text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-green-500">verified</span>
+                                94% Match
+                            </span>
+</div>
+<div class="flex items-start gap-4 mb-8">
+<div class="w-16 h-16 rounded-2xl bg-surface-container flex items-center justify-center text-primary font-headline-md shrink-0 shadow-inner">
+                                B
+                            </div>
+<div>
+<h2 class="text-headline-md font-headline-md text-on-surface">Lender B</h2>
+<p class="text-body-md font-body-md text-on-surface-variant mt-1">Premium Home Loan • Fixed Rate</p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 mb-6">
+<div class="bg-surface-container-low p-4 rounded-xl">
+<p class="text-caption font-caption text-on-surface-variant mb-1 uppercase tracking-wide">Utility Score</p>
+<p class="text-headline-md font-headline-md text-primary flex items-baseline gap-1">9.4<span class="text-body-md font-body-md text-on-surface-variant">/10</span></p>
+</div>
+<div class="bg-surface-container-low p-4 rounded-xl">
+<p class="text-caption font-caption text-on-surface-variant mb-1 uppercase tracking-wide">Total Interest</p>
+<p class="text-headline-md font-headline-md text-primary">$187,358</p>
+</div>
+</div>
+</div>
+<button class="w-full bg-primary text-on-primary py-3 rounded-full text-label-sm font-label-sm hover:scale-[1.02] transition-transform shadow-md">
+                        Proceed with Lender B
+                    </button>
+</div>
+<!-- Right: AI Explanation (XAI) -->
+<div class="relative z-10 flex-1 flex flex-col justify-center">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-tertiary-container">auto_awesome</span>
+<h3 class="text-body-lg font-body-lg text-primary font-semibold">Why this is your best fit</h3>
+</div>
+<ul class="space-y-4">
+<li class="flex items-start gap-3">
+<div class="mt-1 w-6 h-6 rounded-full bg-green-100 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[14px] text-green-700">check</span>
+</div>
+<p class="text-body-md font-body-md text-on-surface-variant"><strong class="text-on-surface">Zero pre-payment penalty.</strong> This saves you projected $14,000 if you pay off early as planned in year 5.</p>
+</li>
+<li class="flex items-start gap-3">
+<div class="mt-1 w-6 h-6 rounded-full bg-green-100 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[14px] text-green-700">check</span>
+</div>
+<p class="text-body-md font-body-md text-on-surface-variant"><strong class="text-on-surface">Lowest total cost.</strong> Despite a slightly higher initial rate (3.65%), the zero processing fee makes it cheaper overall.</p>
+</li>
+<li class="flex items-start gap-3">
+<div class="mt-1 w-6 h-6 rounded-full bg-green-100 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[14px] text-green-700">check</span>
+</div>
+<p class="text-body-md font-body-md text-on-surface-variant"><strong class="text-on-surface">High approval odds (88%).</strong> Matches your specific employment profile strongly.</p>
+</li>
+</ul>
+</div>
+</div>
+<!-- Alternative Recommendations -->
+<div class="mt-8">
+<h3 class="text-headline-md font-headline-md text-on-surface mb-4">Strong Alternatives</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Alt 1 -->
+<div class="bg-surface-container-lowest p-5 rounded-2xl border border-outline-variant/50 hover:border-outline-variant transition-colors flex items-center justify-between group">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center text-on-surface-variant font-headline-md shrink-0">
+                                A
+                            </div>
+<div>
+<h4 class="text-body-lg font-body-lg text-on-surface font-semibold">Lender A</h4>
+<p class="text-caption font-caption text-on-surface-variant">Best for lowest initial rate (3.55%)</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-body-lg font-body-lg text-primary font-bold">8.9</p>
+<p class="text-caption font-caption text-on-surface-variant">Score</p>
+</div>
+</div>
+<!-- Alt 2 -->
+<div class="bg-surface-container-lowest p-5 rounded-2xl border border-outline-variant/50 hover:border-outline-variant transition-colors flex items-center justify-between group">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center text-on-surface-variant font-headline-md shrink-0">
+                                C
+                            </div>
+<div>
+<h4 class="text-body-lg font-body-lg text-on-surface font-semibold">Lender C</h4>
+<p class="text-caption font-caption text-on-surface-variant">Fastest processing time</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-body-lg font-body-lg text-primary font-bold">8.2</p>
+<p class="text-caption font-caption text-on-surface-variant">Score</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Sidebar: AI Assistant (30%) -->
+<div class="w-full lg:w-[30%] lg:min-w-[320px] flex flex-col h-[600px] lg:h-auto lg:sticky lg:top-24 bg-surface-container-lowest/80 backdrop-blur-xl rounded-3xl border border-outline-variant/40 shadow-xl overflow-hidden shadow-tertiary-fixed/10">
+<!-- Header -->
+<div class="px-6 py-4 border-b border-outline-variant/30 flex items-center justify-between bg-white/50 backdrop-blur-sm z-10 relative">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary-container animate-pulse">robot_2</span>
+<span class="text-body-md font-body-md font-semibold text-primary">LoanFit Assistant</span>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">more_horiz</span>
+</button>
+</div>
+<!-- Chat Area -->
+<div class="flex-1 overflow-y-auto p-6 space-y-6 flex flex-col bg-gradient-to-b from-transparent to-surface-container-low/20 relative" id="chat-container">
+<!-- Decorative Dotted Mesh -->
+<div class="absolute inset-0 z-0 pointer-events-none opacity-20" style="background-image: radial-gradient(circle, #cbd5e1 1px, transparent 1px); background-size: 24px 24px;"></div>
+<!-- Chat Messages (z-10 for layering) -->
+<div class="flex justify-end z-10">
+<div class="bg-primary text-on-primary rounded-2xl rounded-tr-sm px-4 py-3 max-w-[85%] shadow-sm">
+<p class="text-body-md font-body-md">Why did you pick Lender B over Lender A?</p>
+</div>
+</div>
+<div class="flex justify-start z-10">
+<div class="bg-surface-container rounded-2xl rounded-tl-sm px-4 py-3 max-w-[90%] shadow-sm border border-outline-variant/20 relative">
+<div class="absolute -left-2 top-3 w-4 h-4 bg-tertiary-fixed rounded-full blur-sm opacity-50"></div>
+<p class="text-body-md font-body-md text-on-surface">While Lender A has a slightly lower rate (3.55% vs 3.65%), Lender B has zero processing fees and no pre-payment penalties. If you pay off early as you indicated, Lender B saves you approximately $4,500 total.</p>
+</div>
+</div>
+<div class="flex justify-end z-10">
+<div class="bg-primary text-on-primary rounded-2xl rounded-tr-sm px-4 py-3 max-w-[85%] shadow-sm">
+<p class="text-body-md font-body-md">What if I increase the tenure to 20 years?</p>
+</div>
+</div>
+<div class="flex justify-start z-10">
+<div class="bg-surface-container rounded-2xl rounded-tl-sm px-4 py-3 max-w-[90%] shadow-sm border border-outline-variant/20">
+<div class="flex items-center gap-2 mb-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] animate-spin">progress_activity</span>
+<span class="text-caption font-caption">Recalculating...</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Input Area -->
+<div class="p-4 bg-white/80 backdrop-blur-md border-t border-outline-variant/30 z-10">
+<div class="relative flex items-center">
+<input class="w-full bg-surface-container-low text-on-surface placeholder:text-on-surface-variant/50 rounded-full py-3 pl-4 pr-12 text-body-md font-body-md border border-outline-variant/50 focus:outline-none focus:border-tertiary-fixed focus:ring-1 focus:ring-tertiary-fixed transition-all" placeholder="Ask 'What if I change...'" type="text"/>
+<button class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[16px]">arrow_upward</span>
+</button>
+</div>
+<div class="flex gap-2 mt-3 overflow-x-auto pb-1 hide-scrollbar">
+<button class="shrink-0 px-3 py-1.5 rounded-full bg-surface text-on-surface-variant text-caption font-caption border border-outline-variant/50 hover:bg-surface-container transition-colors whitespace-nowrap">Show cost breakdown</button>
+<button class="shrink-0 px-3 py-1.5 rounded-full bg-surface text-on-surface-variant text-caption font-caption border border-outline-variant/50 hover:bg-surface-container transition-colors whitespace-nowrap">Compare fees</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<style>
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+</style></main><footer class="w-full bg-surface-container-low pt-16 pb-12 mt-20"><div class="max-w-container-max mx-auto px-margin-mobile lg:px-margin-desktop"><div class="text-center mb-10"><span class="text-caption font-caption text-on-surface-variant uppercase tracking-widest">Partner Cloud</span><div class="flex flex-wrap justify-center items-center gap-12 mt-8 grayscale opacity-50 contrast-125"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-4xl">account_balance</span><span class="font-bold text-lg">GlobalTrust</span></div><div class="flex items-center gap-2"><span class="material-symbols-outlined text-4xl">payments</span><span class="font-bold text-lg">FinEdge</span></div><div class="flex items-center gap-2"><span class="material-symbols-outlined text-4xl">credit_card</span><span class="font-bold text-lg">SwiftPay</span></div><div class="flex items-center gap-2"><span class="material-symbols-outlined text-4xl">monitoring</span><span class="font-bold text-lg">Vanguard Capital</span></div></div></div><div class="border-t border-outline-variant pt-8 flex flex-col md:flex-row justify-between items-center gap-4"><p class="text-caption font-caption text-on-surface-variant">© 2024 LoanFit AI. Financial intelligence for the next generation.</p><div class="flex gap-6"><a class="text-caption font-caption text-on-surface-variant hover:text-primary transition-colors" href="#">Terms</a><a class="text-caption font-caption text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy</a></div></div></div></footer></body></html>

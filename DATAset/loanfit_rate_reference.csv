@@ -1,0 +1,26 @@
+loan_type,bank,rate_min_pa,rate_max_pa,note
+Home,SBI,6.65,8.9,Synthetic range anchored to public lender information; verify current official rate before production.
+Home,HDFC Bank,7.75,13.2,Synthetic range anchored to public lender information; verify current official rate before production.
+Home,ICICI Bank,8.5,10.05,Synthetic range anchored to public lender information; verify current official rate before production.
+Home,Axis Bank,8.35,9.35,Synthetic range anchored to public lender information; verify current official rate before production.
+Home,Bank of Baroda,7.1,10.25,Synthetic range anchored to public lender information; verify current official rate before production.
+Education,SBI,8.0,13.75,Synthetic range anchored to public lender information; verify current official rate before production.
+Education,HDFC Bank,8.5,13.5,Synthetic range anchored to public lender information; verify current official rate before production.
+Education,ICICI Bank,8.5,13.5,Synthetic range anchored to public lender information; verify current official rate before production.
+Education,Axis Bank,8.5,14.0,Synthetic range anchored to public lender information; verify current official rate before production.
+Education,Bank of Baroda,8.0,13.5,Synthetic range anchored to public lender information; verify current official rate before production.
+Car,SBI,8.0,10.5,Synthetic range anchored to public lender information; verify current official rate before production.
+Car,HDFC Bank,8.5,12.5,Synthetic range anchored to public lender information; verify current official rate before production.
+Car,ICICI Bank,8.5,12.5,Synthetic range anchored to public lender information; verify current official rate before production.
+Car,Axis Bank,8.5,12.5,Synthetic range anchored to public lender information; verify current official rate before production.
+Car,Bank of Baroda,8.0,11.5,Synthetic range anchored to public lender information; verify current official rate before production.
+Personal,SBI,10.0,15.5,Synthetic range anchored to public lender information; verify current official rate before production.
+Personal,HDFC Bank,10.5,17.0,Synthetic range anchored to public lender information; verify current official rate before production.
+Personal,ICICI Bank,10.5,16.5,Synthetic range anchored to public lender information; verify current official rate before production.
+Personal,Axis Bank,9.99,18.0,Synthetic range anchored to public lender information; verify current official rate before production.
+Personal,Bank of Baroda,10.5,18.0,Synthetic range anchored to public lender information; verify current official rate before production.
+Business,SBI,9.0,15.0,Synthetic range anchored to public lender information; verify current official rate before production.
+Business,HDFC Bank,10.0,18.0,Synthetic range anchored to public lender information; verify current official rate before production.
+Business,ICICI Bank,10.0,18.0,Synthetic range anchored to public lender information; verify current official rate before production.
+Business,Axis Bank,10.5,18.5,Synthetic range anchored to public lender information; verify current official rate before production.
+Business,Bank of Baroda,9.0,16.0,Synthetic range anchored to public lender information; verify current official rate before production.

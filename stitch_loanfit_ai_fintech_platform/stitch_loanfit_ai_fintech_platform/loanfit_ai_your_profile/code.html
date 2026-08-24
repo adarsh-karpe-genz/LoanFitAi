@@ -1,0 +1,203 @@
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "inverse-primary": "#bec6e0", "secondary-fixed-dim": "#b7c8e1", "inverse-on-surface": "#f3f0f2", "tertiary": "#000000", "on-error-container": "#93000a", "surface-container": "#f0edef", "tertiary-fixed": "#e1e0ff", "surface-dim": "#dcd9db", "error-container": "#ffdad6", "on-tertiary-container": "#7073ff", "secondary": "#505f76", "secondary-fixed": "#d3e4fe", "on-error": "#ffffff", "on-secondary-container": "#54647a", "outline": "#76777d", "on-tertiary": "#ffffff", "error": "#ba1a1a", "surface-variant": "#e4e2e4", "primary-container": "#131b2e", "primary-fixed-dim": "#bec6e0", "tertiary-container": "#07006c", "on-secondary": "#ffffff", "on-surface-variant": "#45464d", "surface": "#fcf8fa", "background": "#fcf8fa", "on-primary-fixed-variant": "#3f465c", "on-primary-container": "#7c839b", "surface-bright": "#fcf8fa", "on-secondary-fixed-variant": "#38485d", "surface-container-low": "#f6f3f5", "secondary-container": "#d0e1fb", "on-primary": "#ffffff", "inverse-surface": "#303032", "tertiary-fixed-dim": "#c0c1ff", "on-primary-fixed": "#131b2e", "on-surface": "#1b1b1d", "surface-tint": "#565e74", "primary-fixed": "#dae2fd", "surface-container-highest": "#e4e2e4", "on-secondary-fixed": "#0b1c30", "on-tertiary-fixed-variant": "#2f2ebe", "on-tertiary-fixed": "#07006c", "outline-variant": "#c6c6cd", "on-background": "#1b1b1d", "primary": "#000000", "surface-container-lowest": "#ffffff", "surface-container-high": "#eae7e9" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "container-max": "1280px", "stack-gap": "16px", "margin-mobile": "20px", "unit": "4px", "gutter": "24px", "margin-desktop": "40px" }, "fontFamily": { "caption": ["Inter"], "display-lg": ["Plus Jakarta Sans"], "headline-md": ["Plus Jakarta Sans"], "body-lg": ["Inter"], "display-lg-mobile": ["Plus Jakarta Sans"], "body-md": ["Inter"], "label-sm": ["Inter"] }, "fontSize": { "caption": ["12px", { "lineHeight": "1.4", "fontWeight": "500" }], "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }], "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }], "display-lg-mobile": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }], "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }], "label-sm": ["13px", { "lineHeight": "1", "letterSpacing": "0.03em", "fontWeight": "600" }] } } } };</script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Plus+Jakarta+Sans:wght@100..900&display=swap" rel="stylesheet"/></head><body class="bg-background font-body-md text-on-surface"><header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-outline-variant"><div class="h-20 max-w-container-max mx-auto px-margin-mobile lg:px-margin-desktop flex items-center justify-between"><div class="flex items-center gap-2"><img alt="LoanFit AI Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVqiJyQMK2VCPJrENYaGRenElebpcPZFXg1GLnGbVAXVtDSWGaRUIL-ncqTKMhDIfR5nQ5vqvWgf0JxsvzEqZ2XtmyymHNgMYoJqcKeIYZMadZmpGUff4WH6sqikAZvbLKavB1m-fn0fzPBiDBfnG9gNVvnfzJzVqGjEhq4nK-isHSBjqxIMXWvgslDEnmyzx8eGMKUgqTaSu_Bes4Z537UY_rqL5_AbOLgnOZXTHppfVF5JAaumlv"/><span class="font-headline-md text-headline-md text-primary hidden sm:block">LoanFit AI</span></div><nav class="hidden md:flex items-center bg-surface-container-low px-2 py-1.5 rounded-full gap-1" data-active-classes="bg-white shadow-sm text-primary"><a class="px-6 py-2 rounded-full text-label-sm font-label-sm text-on-surface-variant hover:text-on-surface transition-all" data-path="home" href="#">Home</a><a aria-current="page" class="px-6 py-2 rounded-full font-label-sm transition-all bg-white shadow-sm text-primary" data-path="dashboard" href="#">Dashboard</a><a class="px-6 py-2 rounded-full text-label-sm font-label-sm text-on-surface-variant hover:text-on-surface transition-all" data-path="comparison" href="#">Comparison</a><a class="px-6 py-2 rounded-full text-label-sm font-label-sm text-on-surface-variant hover:text-on-surface transition-all" data-path="ai-assistant" href="#">AI Assistant</a></nav><div class="flex items-center gap-4"><button class="text-label-sm font-label-sm text-on-surface-variant hover:text-on-surface">Login</button><button class="bg-primary text-on-primary px-6 py-2 rounded-full text-label-sm font-label-sm hover:scale-[1.02] transition-transform">Sign Up</button></div></div></header><main class="pt-20 w-full"><div class="flex flex-col w-full min-h-[calc(100vh-5rem)] bg-background relative overflow-hidden">
+<!-- Subtle Background Elements -->
+<div class="absolute inset-0 z-0 pointer-events-none opacity-40">
+<div class="absolute top-[10%] left-[5%] w-[40vw] h-[40vw] rounded-full bg-gradient-to-tr from-secondary-fixed/30 to-transparent blur-3xl"></div>
+<div class="absolute bottom-[20%] right-[10%] w-[30vw] h-[30vw] rounded-full bg-gradient-to-bl from-tertiary-fixed/30 to-transparent blur-3xl"></div>
+</div>
+<div class="max-w-container-max mx-auto w-full px-margin-mobile lg:px-margin-desktop py-8 relative z-10">
+<!-- Header Section -->
+<div class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface mb-2">Borrower Profile</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">Complete your financial snapshot. Our AI will analyze these inputs to find loan structures optimized for total cost and approval odds.</p>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-2 bg-surface-container-low px-4 py-2 rounded-full border border-outline-variant/30 shadow-sm">
+<div class="w-2 h-2 rounded-full bg-[#10b981] animate-pulse"></div>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Auto-saving</span>
+</div>
+<button class="bg-primary text-on-primary px-6 py-2.5 rounded-full font-label-sm text-label-sm hover:scale-[1.02] transition-transform shadow-md">Analyze Profile</button>
+</div>
+</div>
+<!-- Main Content Grid -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Left Column: Loan Requirements & Financial Profile -->
+<div class="md:col-span-8 flex flex-col gap-stack-gap">
+<!-- Loan Requirements Card -->
+<div class="bg-surface-container-lowest rounded-[24px] shadow-[0px_20px_25px_-5px_rgba(226,232,240,0.5)] p-6 md:p-8 relative overflow-hidden group transition-all duration-300 hover:shadow-[0px_25px_35px_-5px_rgba(226,232,240,0.6)]">
+<div class="flex items-center justify-between mb-8 border-b border-outline-variant/20 pb-4">
+<h2 class="font-headline-md text-headline-md text-on-surface flex items-center gap-3">
+<span class="material-symbols-outlined text-primary bg-primary-fixed/30 p-2 rounded-lg">account_balance</span>
+              Loan Requirements
+            </h2>
+<span class="font-caption text-caption text-on-surface-variant bg-surface-container px-3 py-1 rounded-full">Step 1 of 3</span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+<!-- Loan Type -->
+<div class="flex flex-col gap-2">
+<label class="font-label-sm text-label-sm text-on-surface-variant">Loan Purpose</label>
+<div class="relative">
+<select class="w-full appearance-none bg-surface-container-low border border-outline-variant/30 rounded-lg px-4 py-3 font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/20 transition-shadow">
+<option>Home Purchase</option>
+<option>Refinance</option>
+<option>Personal Loan</option>
+<option>Business Expansion</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- Loan Amount -->
+<div class="flex flex-col gap-2">
+<label class="font-label-sm text-label-sm text-on-surface-variant">Requested Amount</label>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 font-body-md text-on-surface-variant">$</span>
+<input class="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg pl-8 pr-4 py-3 font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/20 transition-shadow" placeholder="500,000" type="text"/>
+</div>
+</div>
+<!-- Term Length -->
+<div class="flex flex-col gap-2 sm:col-span-2">
+<label class="font-label-sm text-label-sm text-on-surface-variant">Desired Term Length</label>
+<div class="grid grid-cols-3 gap-3">
+<label class="cursor-pointer">
+<input checked="" class="peer sr-only" name="term" type="radio"/>
+<div class="text-center py-3 rounded-lg border border-outline-variant/30 bg-surface-container-low peer-checked:bg-primary-fixed peer-checked:border-primary peer-checked:text-on-primary-fixed transition-colors font-body-md">15 Years</div>
+</label>
+<label class="cursor-pointer">
+<input class="peer sr-only" name="term" type="radio"/>
+<div class="text-center py-3 rounded-lg border border-outline-variant/30 bg-surface-container-low peer-checked:bg-primary-fixed peer-checked:border-primary peer-checked:text-on-primary-fixed transition-colors font-body-md">20 Years</div>
+</label>
+<label class="cursor-pointer">
+<input class="peer sr-only" name="term" type="radio"/>
+<div class="text-center py-3 rounded-lg border border-outline-variant/30 bg-surface-container-low peer-checked:bg-primary-fixed peer-checked:border-primary peer-checked:text-on-primary-fixed transition-colors font-body-md">30 Years</div>
+</label>
+</div>
+</div>
+</div>
+</div>
+<!-- Financial Profile Card -->
+<div class="bg-surface-container-lowest rounded-[24px] shadow-[0px_20px_25px_-5px_rgba(226,232,240,0.5)] p-6 md:p-8 relative overflow-hidden group transition-all duration-300 hover:shadow-[0px_25px_35px_-5px_rgba(226,232,240,0.6)]">
+<div class="flex items-center justify-between mb-8 border-b border-outline-variant/20 pb-4">
+<h2 class="font-headline-md text-headline-md text-on-surface flex items-center gap-3">
+<span class="material-symbols-outlined text-primary bg-primary-fixed/30 p-2 rounded-lg">monitoring</span>
+              Financial Profile
+            </h2>
+<span class="font-caption text-caption text-on-surface-variant bg-surface-container px-3 py-1 rounded-full">Step 2 of 3</span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+<!-- Annual Income -->
+<div class="flex flex-col gap-2">
+<label class="font-label-sm text-label-sm text-on-surface-variant">Annual Gross Income</label>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 font-body-md text-on-surface-variant">$</span>
+<input class="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg pl-8 pr-4 py-3 font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/20 transition-shadow" placeholder="120,000" type="text"/>
+</div>
+</div>
+<!-- Credit Score -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-center">
+<label class="font-label-sm text-label-sm text-on-surface-variant">Estimated Credit Score</label>
+<span class="font-caption text-caption text-primary bg-primary-fixed/30 px-2 py-0.5 rounded">Excellent</span>
+</div>
+<input class="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg px-4 py-3 font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/20 transition-shadow" max="850" min="300" placeholder="780" type="number"/>
+</div>
+<!-- Monthly Debts -->
+<div class="flex flex-col gap-2 sm:col-span-2">
+<label class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+                Current Monthly Debts
+                <span class="material-symbols-outlined text-[16px] text-outline cursor-help" title="Include auto loans, student loans, credit card minimums. Do not include current rent/mortgage if replacing.">info</span>
+</label>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 font-body-md text-on-surface-variant">$</span>
+<input class="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg pl-8 pr-4 py-3 font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/20 transition-shadow" placeholder="850" type="text"/>
+</div>
+<!-- Mini DTI Visualization -->
+<div class="mt-4 p-4 bg-surface-container rounded-xl flex items-center gap-4">
+<div class="w-12 h-12 relative flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 36 36">
+<path class="text-outline-variant/30" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="100, 100" stroke-width="3"></path>
+<path class="text-primary" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="24, 100" stroke-width="3"></path>
+</svg>
+<span class="absolute text-caption font-bold">24%</span>
+</div>
+<div>
+<p class="font-label-sm text-on-surface">Estimated DTI Ratio</p>
+<p class="font-caption text-on-surface-variant">Looking good. Most lenders prefer under 36%.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Preferences & AI Insights -->
+<div class="md:col-span-4 flex flex-col gap-stack-gap">
+<!-- Preferences Card -->
+<div class="bg-surface-container-lowest rounded-[24px] shadow-[0px_20px_25px_-5px_rgba(226,232,240,0.5)] p-6 md:p-8 relative overflow-hidden group transition-all duration-300 hover:shadow-[0px_25px_35px_-5px_rgba(226,232,240,0.6)] border border-primary/10">
+<!-- Decorative Glow -->
+<div class="absolute -top-10 -right-10 w-32 h-32 bg-primary-fixed/40 rounded-full blur-2xl pointer-events-none"></div>
+<div class="flex items-center justify-between mb-8 border-b border-outline-variant/20 pb-4 relative z-10">
+<h2 class="font-headline-md text-headline-md text-on-surface flex items-center gap-3">
+<span class="material-symbols-outlined text-primary bg-primary-fixed/30 p-2 rounded-lg">tune</span>
+              Preferences
+            </h2>
+<span class="font-caption text-caption text-on-surface-variant bg-surface-container px-3 py-1 rounded-full">Step 3 of 3</span>
+</div>
+<div class="flex flex-col gap-8 relative z-10">
+<!-- Optimization Slider -->
+<div class="flex flex-col gap-4">
+<div class="flex justify-between items-center">
+<label class="font-label-sm text-label-sm text-on-surface-variant font-bold">Optimization Goal</label>
+</div>
+<div class="relative pt-4 pb-2">
+<input class="w-full h-1.5 bg-surface-variant rounded-lg appearance-none cursor-pointer accent-primary focus:outline-none focus:ring-2 focus:ring-primary/30" max="100" min="0" type="range" value="30"/>
+<div class="flex justify-between mt-3">
+<span class="font-caption text-caption text-on-surface-variant">Lowest Cost</span>
+<span class="font-caption text-caption text-on-surface-variant">High Eligibility</span>
+</div>
+</div>
+</div>
+<!-- Toggles -->
+<div class="flex flex-col gap-6">
+<div class="flex items-center justify-between">
+<div>
+<label class="font-label-sm text-label-sm text-on-surface font-bold block mb-1">Pre-payment Flexibility</label>
+<span class="font-caption text-caption text-on-surface-variant">Prioritize loans without early payoff penalties.</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<label class="font-label-sm text-label-sm text-on-surface font-bold block mb-1">Fixed Rate Only</label>
+<span class="font-caption text-caption text-on-surface-variant">Exclude adjustable rate mortgages (ARMs).</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</div>
+</div>
+<!-- AI Assistant Mini Prompts -->
+<div class="bg-surface-container-low rounded-[24px] p-6 border border-outline-variant/30 flex flex-col gap-4">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary text-[20px]">smart_toy</span>
+<span class="font-label-sm text-label-sm text-on-surface font-bold">AI Suggestions</span>
+</div>
+<button class="text-left bg-surface-container-lowest p-3 rounded-lg border border-outline-variant/20 hover:border-primary/40 transition-colors font-caption text-caption text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-primary">lightbulb</span>
+            "How does increasing my down payment affect my rate?"
+          </button>
+<button class="text-left bg-surface-container-lowest p-3 rounded-lg border border-outline-variant/20 hover:border-primary/40 transition-colors font-caption text-caption text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-primary">lightbulb</span>
+            "Show me the tradeoff between 15yr and 30yr terms."
+          </button>
+</div>
+</div>
+</div>
+</div>
+</div></main><footer class="w-full bg-surface-container-low pt-16 pb-12 mt-20"><div class="max-w-container-max mx-auto px-margin-mobile lg:px-margin-desktop"><div class="text-center mb-10"><span class="text-caption font-caption text-on-surface-variant uppercase tracking-widest">Partner Cloud</span><div class="flex flex-wrap justify-center items-center gap-12 mt-8 grayscale opacity-50 contrast-125"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-4xl">account_balance</span><span class="font-bold text-lg">GlobalTrust</span></div><div class="flex items-center gap-2"><span class="material-symbols-outlined text-4xl">payments</span><span class="font-bold text-lg">FinEdge</span></div><div class="flex items-center gap-2"><span class="material-symbols-outlined text-4xl">credit_card</span><span class="font-bold text-lg">SwiftPay</span></div><div class="flex items-center gap-2"><span class="material-symbols-outlined text-4xl">monitoring</span><span class="font-bold text-lg">Vanguard Capital</span></div></div></div><div class="border-t border-outline-variant pt-8 flex flex-col md:flex-row justify-between items-center gap-4"><p class="text-caption font-caption text-on-surface-variant">© 2024 LoanFit AI. Financial intelligence for the next generation.</p><div class="flex gap-6"><a class="text-caption font-caption text-on-surface-variant hover:text-primary transition-colors" href="#">Terms</a><a class="text-caption font-caption text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy</a></div></div></div></footer></body></html>
