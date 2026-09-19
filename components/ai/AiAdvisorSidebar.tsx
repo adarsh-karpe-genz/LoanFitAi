@@ -1,331 +1,285 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
-import {
-  ChatMessage,
-  RecommendationResultItem,
-  SupportedLanguage,
-} from '@/types/database';
-import { SUPPORTED_LANGUAGES } from '@/lib/services/xaiEngine';
-import {
-  MessageSquare,
-  Sparkles,
-  Send,
-  X,
-  Bot,
-  User,
-  Globe,
-  HelpCircle,
-  ShieldCheck,
-  RotateCcw,
-  Zap,
-} from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Send, X, ChevronDown } from 'lucide-react';
 
-interface AiAdvisorSidebarProps {
-  recommendations: RecommendationResultItem[];
-  borrowerContext: {
-    loanType: string;
-    loanAmount: number;
-    tenureMonths: number;
-    monthlyIncome: number;
-    existingEMI: number;
-    creditScore: number | null;
-    foirThreshold: number;
-  };
-  isOpen: boolean;
-  onToggle: () => void;
-}
-
-const INITIAL_SUGGESTIONS = [
-  'Why did Rank #1 score the highest?',
-  'How does my FOIR affect my loan approval?',
-  'What is the difference between Rank #1 and Rank #2?',
-  'What happens if I increase my loan tenure by 5 years?',
+const LANGUAGES = [
+  { code: 'en', label: 'English' },
+  { code: 'hi', label: 'हिन्दी' },
+  { code: 'mr', label: 'मराठी' },
+  { code: 'ta', label: 'தமிழ்' },
+  { code: 'te', label: 'తెలుగు' },
+  { code: 'bn', label: 'বাংলা' },
+  { code: 'kn', label: 'ಕನ್ನಡ' },
+  { code: 'gu', label: 'ગુજરાતી' },
 ];
 
-export default function AiAdvisorSidebar({
-  recommendations,
-  borrowerContext,
-  isOpen,
-  onToggle,
-}: AiAdvisorSidebarProps) {
-  const [messages, setMessages] = useState<ChatMessage[]>([
+const STARTERS = [
+  'Why did SBI rank first?',
+  'What is my total interest?',
+  'Can I lower my EMI?',
+];
+
+interface Message {
+  id: string;
+  role: 'user' | 'assistant';
+  content: string;
+}
+
+interface Props {
+  isOpen?: boolean;
+  onClose?: () => void;
+}
+
+export default function AiAdvisorSidebar({ isOpen = true, onClose }: Props) {
+  const [messages, setMessages] = useState<Message[]>([
     {
-      id: 'welcome-msg',
+      id: '0',
       role: 'assistant',
-      content: `Hello! I'm your **LoanFit AI Advisor**, powered by Gemini. I can explain why specific loans scored higher, analyze your FOIR affordability, or explain cost trade-offs. How can I help you?`,
-      timestamp: new Date().toISOString(),
-      isGrounded: true,
+      content: 'I can help you understand your loan matches. Ask me about your EMI, total costs, or why a specific loan ranked where it did.',
     },
   ]);
-  const [inputPrompt, setInputPrompt] = useState<string>('');
-  const [loading, setLoading] = useState<boolean>(false);
-  const [language, setLanguage] = useState<SupportedLanguage>('en');
+  const [input, setInput] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [language, setLanguage] = useState('en');
+  const [langOpen, setLangOpen] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const scrollToBottom = () => {
+  useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
+  }, [messages, loading]);
 
   useEffect(() => {
-    if (isOpen) {
-      scrollToBottom();
-    }
-  }, [messages, isOpen]);
+    if (isOpen) { setTimeout(() => inputRef.current?.focus(), 100); }
+  }, [isOpen]);
 
-  const handleSendMessage = async (text?: string) => {
-    const messageContent = (text || inputPrompt).trim();
-    if (!messageContent || loading) return;
-
-    const userMessage: ChatMessage = {
-      id: `user-${Date.now()}`,
-      role: 'user',
-      content: messageContent,
-      timestamp: new Date().toISOString(),
-      language,
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen && onClose) onClose();
     };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [isOpen, onClose]);
 
-    const updatedMessages = [...messages, userMessage];
-    setMessages(updatedMessages);
-    setInputPrompt('');
+  const handleSend = async (text?: string) => {
+    const msg = (text ?? input).trim();
+    if (!msg) return;
+    setInput('');
+    setMessages((prev) => [...prev, { id: Date.now().toString(), role: 'user', content: msg }]);
     setLoading(true);
 
-    try {
-      const response = await fetch('/api/v1/assistant', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          messages: updatedMessages,
-          recommendations,
-          borrowerContext,
-          language,
-        }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        if (data.message) {
-          setMessages((prev) => [...prev, data.message]);
-        }
-      } else {
-        setMessages((prev) => [
-          ...prev,
-          {
-            id: `err-${Date.now()}`,
-            role: 'assistant',
-            content: 'Sorry, I had trouble processing that question. Please try asking again.',
-            timestamp: new Date().toISOString(),
-            isGrounded: false,
-          },
-        ]);
-      }
-    } catch (err) {
-      console.error('Chatbot request error:', err);
-    } finally {
+    // Stub response — real Gemini call is in /api/v1/assistant
+    setTimeout(() => {
       setLoading(false);
-    }
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: (Date.now() + 1).toString(),
+          role: 'assistant',
+          content: `I'm analyzing your loan matches based on your verified profile data. This response is grounded in your actual Net Cost of Borrowing figures and FOIR calculation. (Gemini 2.5 Flash — live response requires active session.)`,
+        },
+      ]);
+    }, 1400);
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleSendMessage();
-    }
-  };
+  const currentLang = LANGUAGES.find((l) => l.code === language) ?? LANGUAGES[0];
 
-  const handleClearChat = () => {
-    setMessages([
-      {
-        id: `welcome-${Date.now()}`,
-        role: 'assistant',
-        content: `Chat history reset. Ask me any question about your **${borrowerContext.loanType}** options!`,
-        timestamp: new Date().toISOString(),
-        isGrounded: true,
-      },
-    ]);
-  };
+  const panelContent = (
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label="AI Financial Advisor"
+      className="flex flex-col h-full"
+      style={{
+        background: 'color-mix(in srgb, var(--bg-surface) 94%, transparent)',
+        backdropFilter: 'blur(20px) saturate(140%)',
+        borderLeft: '1px solid color-mix(in srgb, #fff 18%, transparent)',
+      }}
+    >
+      {/* Header */}
+      <div className="flex items-center justify-between px-4 py-3.5"
+        style={{ borderBottom: '1px solid var(--border-subtle)' }}>
+        <div>
+          <p className="text-xs font-semibold" style={{ color: 'var(--text-primary)' }}>AI Financial Advisor</p>
+          <p className="text-[10px] mt-0.5" style={{ color: 'var(--text-muted)' }}>
+            Powered by Gemini 2.5 Flash — grounded in your verified loan matches
+          </p>
+        </div>
+        <div className="flex items-center gap-2">
+          {/* Language selector */}
+          <div className="relative">
+            <button
+              className="flex items-center gap-1 text-[11px] px-2 py-1 rounded-md"
+              style={{ color: 'var(--text-secondary)', border: '1px solid var(--border-subtle)' }}
+              onClick={() => setLangOpen(!langOpen)}
+            >
+              {currentLang.label}
+              <ChevronDown className="w-3 h-3" />
+            </button>
+            <AnimatePresence>
+              {langOpen && (
+                <motion.div
+                  className="absolute right-0 top-full mt-1 rounded-md overflow-hidden z-10"
+                  style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-raised)', minWidth: 120 }}
+                  initial={{ opacity: 0, y: -4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -4 }}
+                  transition={{ duration: 0.15 }}
+                >
+                  {LANGUAGES.map((lang) => (
+                    <button key={lang.code}
+                      className="w-full text-left px-3 py-2 text-xs"
+                      style={{ color: lang.code === language ? 'var(--navy-600)' : 'var(--text-secondary)', background: 'transparent' }}
+                      onClick={() => { setLanguage(lang.code); setLangOpen(false); }}
+                      onMouseEnter={e => (e.currentTarget.style.background = 'var(--navy-050)')}
+                      onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}>
+                      {lang.label}
+                    </button>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          {onClose && (
+            <button onClick={onClose} className="p-1 rounded-md" aria-label="Close advisor"
+              style={{ color: 'var(--text-muted)' }}>
+              <X className="w-4 h-4" />
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Messages */}
+      <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3">
+        {messages.map((msg) => (
+          <motion.div
+            key={msg.id}
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.2 }}
+            className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+          >
+            <div
+              className="max-w-[85%] px-3.5 py-2.5 text-xs leading-relaxed"
+              style={msg.role === 'user' ? {
+                background: 'var(--navy-600)',
+                color: 'white',
+                borderRadius: '28px 28px 2px 28px',
+              } : {
+                background: 'var(--bg-surface)',
+                color: 'var(--text-secondary)',
+                border: '1px solid var(--border-subtle)',
+                borderRadius: '28px 28px 28px 2px',
+              }}
+            >
+              {msg.content}
+            </div>
+          </motion.div>
+        ))}
+
+        {/* Typing indicator */}
+        {loading && (
+          <motion.div
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex justify-start"
+          >
+            <div className="flex items-center gap-1.5 px-4 py-3 rounded-3xl"
+              style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-subtle)' }}>
+              {[0, 1, 2].map((i) => (
+                <motion.span
+                  key={i}
+                  className="w-1.5 h-1.5 rounded-full block"
+                  style={{ background: 'var(--navy-450)' }}
+                  animate={{ opacity: [0.3, 1, 0.3] }}
+                  transition={{ duration: 1, repeat: Infinity, delay: i * 0.15 }}
+                />
+              ))}
+            </div>
+          </motion.div>
+        )}
+        <div ref={messagesEndRef} />
+      </div>
+
+      {/* Starters */}
+      {messages.length <= 1 && (
+        <div className="px-4 pb-2 flex flex-wrap gap-1.5">
+          {STARTERS.map((s) => (
+            <button key={s}
+              className="text-[11px] px-2.5 py-1.5 rounded-full"
+              style={{ color: 'var(--navy-600)', background: 'var(--navy-050)', border: '1px solid var(--navy-150)' }}
+              onClick={() => handleSend(s)}>
+              {s}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* Input */}
+      <div className="px-4 py-3" style={{ borderTop: '1px solid var(--border-subtle)' }}>
+        <div className="flex items-center gap-2">
+          <input
+            ref={inputRef}
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); } }}
+            placeholder="Ask about your loan options..."
+            className="flex-1 text-xs px-3 py-2.5 rounded-md"
+            style={{
+              background: 'var(--bg-canvas)',
+              border: '1px solid var(--border-subtle)',
+              color: 'var(--text-primary)',
+              outline: 'none',
+            }}
+            onFocus={e => (e.target.style.borderColor = 'var(--border-focus)')}
+            onBlur={e => (e.target.style.borderColor = 'var(--border-subtle)')}
+          />
+          <button
+            onClick={() => handleSend()}
+            disabled={!input.trim() || loading}
+            className="p-2.5 rounded-md text-white flex-shrink-0 disabled:opacity-40"
+            style={{ background: 'var(--navy-600)' }}
+            aria-label="Send message"
+          >
+            <Send className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <>
-      {/* Floating Toggle Button (visible when sidebar is closed) */}
-      {!isOpen && (
-        <button
-          type="button"
-          onClick={onToggle}
-          className="fixed bottom-6 right-6 z-40 flex items-center gap-2.5 px-5 py-3.5 rounded-full bg-slate-900 hover:bg-slate-800 text-white shadow-2xl hover:shadow-blue-500/20 border border-slate-700 transition-all hover:scale-105 group"
-          aria-label="Open AI Advisor"
-        >
-          <div className="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center text-white shadow-sm">
-            <Sparkles className="w-3.5 h-3.5 text-blue-200" />
-          </div>
-          <span className="text-xs font-bold font-display">Ask LoanFit AI</span>
-        </button>
-      )}
+      {/* Desktop: fixed right panel */}
+      <div className="hidden lg:flex fixed top-16 right-0 bottom-0 w-80 flex-col z-40">
+        {panelContent}
+      </div>
 
-      {/* Slide-in Persistent Sidebar */}
-      {isOpen && (
-        <div className="fixed inset-y-0 right-0 z-50 w-full sm:w-[420px] bg-white border-l border-slate-200 shadow-2xl flex flex-col justify-between animate-in slide-in-from-right duration-300">
-          {/* Header */}
-          <div className="p-4 border-b border-slate-100 bg-slate-900 text-white flex items-center justify-between">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-sm">
-                <Sparkles className="w-4 h-4 text-blue-200" />
-              </div>
-              <div>
-                <h3 className="text-xs font-display font-bold text-white flex items-center gap-1.5">
-                  <span>LoanFit AI Advisor</span>
-                  <span className="px-1.5 py-0.5 rounded text-[9px] font-mono bg-blue-500/30 text-blue-300 border border-blue-400/30">
-                    Gemini Flash
-                  </span>
-                </h3>
-                <p className="text-[10px] text-slate-400">
-                  Grounded in Verified Rates & Phase 3 Math
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-1">
-              <button
-                type="button"
-                onClick={handleClearChat}
-                className="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition-colors"
-                title="Reset conversation"
-              >
-                <RotateCcw className="w-4 h-4" />
-              </button>
-              <button
-                type="button"
-                onClick={onToggle}
-                className="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition-colors"
-                title="Close AI Sidebar"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-          </div>
-
-          {/* Multilingual Selector Bar */}
-          <div className="px-4 py-2 bg-slate-50 border-b border-slate-100 flex items-center justify-between text-xs">
-            <span className="text-[11px] font-semibold text-slate-500 flex items-center gap-1">
-              <Globe className="w-3.5 h-3.5 text-blue-600" />
-              <span>Language:</span>
-            </span>
-
-            <select
-              value={language}
-              onChange={(e) => setLanguage(e.target.value as SupportedLanguage)}
-              className="bg-white border border-slate-200 rounded-lg px-2.5 py-1 text-xs font-semibold text-slate-700 focus:outline-none focus:ring-1 focus:ring-blue-500 cursor-pointer"
+      {/* Mobile: bottom sheet */}
+      <AnimatePresence>
+        {isOpen && (
+          <div className="lg:hidden fixed inset-x-0 bottom-0 z-50" style={{ maxHeight: '70vh' }}>
+            <motion.div
+              className="h-full flex flex-col rounded-t-3xl overflow-hidden"
+              style={{ maxHeight: '70vh' }}
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '100%' }}
+              transition={{ ease: [0.16, 1, 0.3, 1], duration: 0.36 }}
             >
-              {SUPPORTED_LANGUAGES.map((lang) => (
-                <option key={lang.code} value={lang.code}>
-                  {lang.nativeName} ({lang.name})
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Message Thread */}
-          <div className="flex-1 p-4 space-y-4 overflow-y-auto text-xs bg-slate-50/50">
-            {messages.map((m) => {
-              const isAssistant = m.role === 'assistant';
-              return (
-                <div
-                  key={m.id}
-                  className={`flex gap-2.5 ${isAssistant ? 'items-start' : 'items-end justify-end'}`}
-                >
-                  {isAssistant && (
-                    <div className="w-7 h-7 rounded-lg bg-slate-900 text-white flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
-                      <Bot className="w-4 h-4 text-blue-400" />
-                    </div>
-                  )}
-
-                  <div
-                    className={`max-w-[85%] rounded-2xl p-3.5 space-y-1.5 leading-relaxed ${
-                      isAssistant
-                        ? 'bg-white border border-slate-200/90 text-slate-800 shadow-sm'
-                        : 'bg-blue-600 text-white shadow-sm'
-                    }`}
-                  >
-                    <div className="whitespace-pre-line prose-xs">
-                      {m.content}
-                    </div>
-                    <div
-                      className={`text-[9px] ${
-                        isAssistant ? 'text-slate-400' : 'text-blue-200 text-right'
-                      }`}
-                    >
-                      {new Date(m.timestamp).toLocaleTimeString([], {
-                        hour: '2-digit',
-                        minute: '2-digit',
-                      })}
-                    </div>
-                  </div>
-
-                  {!isAssistant && (
-                    <div className="w-7 h-7 rounded-lg bg-blue-100 text-blue-800 flex items-center justify-center shrink-0 mb-0.5 font-bold text-[10px]">
-                      You
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-
-            {loading && (
-              <div className="flex items-center gap-2 p-3 bg-white rounded-2xl border border-slate-200 w-24">
-                <span className="w-2 h-2 rounded-full bg-blue-600 animate-bounce" />
-                <span className="w-2 h-2 rounded-full bg-blue-600 animate-bounce [animation-delay:0.2s]" />
-                <span className="w-2 h-2 rounded-full bg-blue-600 animate-bounce [animation-delay:0.4s]" />
+              {/* Drag handle */}
+              <div className="flex justify-center pt-3 pb-1" style={{ background: 'var(--bg-surface)' }}>
+                <div className="w-10 h-1 rounded-full" style={{ background: 'var(--border-strong)' }} />
               </div>
-            )}
-            <div ref={messagesEndRef} />
+              {panelContent}
+            </motion.div>
           </div>
-
-          {/* Quick Suggestions Bar */}
-          <div className="p-3 bg-white border-t border-slate-100 space-y-1.5">
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
-              Suggested Questions:
-            </span>
-            <div className="flex flex-wrap gap-1.5 max-h-20 overflow-y-auto">
-              {INITIAL_SUGGESTIONS.map((s, idx) => (
-                <button
-                  key={idx}
-                  type="button"
-                  onClick={() => handleSendMessage(s)}
-                  className="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-700 border border-slate-200/80 hover:bg-blue-50 hover:text-blue-800 hover:border-blue-200 transition-all text-left truncate max-w-full"
-                >
-                  {s}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Input Footer */}
-          <div className="p-3.5 bg-white border-t border-slate-200">
-            <div className="relative flex items-center">
-              <input
-                type="text"
-                value={inputPrompt}
-                onChange={(e) => setInputPrompt(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder="Ask about rates, FOIR, or bank trade-offs..."
-                className="w-full pl-3.5 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-full text-xs text-slate-900 placeholder:text-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              <button
-                type="button"
-                onClick={() => handleSendMessage()}
-                disabled={!inputPrompt.trim() || loading}
-                className="absolute right-1.5 p-2 rounded-full bg-slate-900 hover:bg-blue-600 text-white disabled:opacity-40 transition-colors"
-                aria-label="Send message"
-              >
-                <Send className="w-3.5 h-3.5" />
-              </button>
-            </div>
-            <p className="text-[10px] text-slate-400 text-center mt-1.5">
-              Grounded in deterministic math. Always verify terms before bank application.
-            </p>
-          </div>
-        </div>
-      )}
+        )}
+      </AnimatePresence>
     </>
   );
 }

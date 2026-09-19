@@ -1,108 +1,102 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ShieldCheck, Lock, CheckCircle2 } from 'lucide-react';
 
 export default function Footer() {
   return (
-    <footer className="bg-slate-900 text-slate-400 border-t border-slate-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
-          {/* Brand Col */}
-          <div className="md:col-span-2 space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white">
-                <ShieldCheck className="w-5 h-5" />
+    <footer style={{ background: 'var(--navy-950)', color: 'var(--navy-150)', borderTop: '1px solid var(--navy-800)' }}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
+
+          {/* Brand — spans 2 cols on lg */}
+          <div className="lg:col-span-2 space-y-3">
+            <Link href="/" className="flex items-center gap-2.5">
+              <div className="w-7 h-7 rounded-md flex items-center justify-center" style={{ background: 'var(--navy-600)' }}>
+                <ShieldCheck className="w-4 h-4 text-white" />
               </div>
-              <span className="font-display font-bold text-xl text-white tracking-tight">
-                LoanFit <span className="text-blue-400">AI</span>
+              <span className="font-semibold text-sm text-white">
+                LoanFit <span style={{ color: 'var(--navy-300)' }}>AI</span>
               </span>
-            </div>
-            <p className="text-sm text-slate-300 font-medium max-w-md leading-relaxed">
-              &ldquo;Find the loan that fits you — not just the lowest interest rate.&rdquo;
+            </Link>
+            <p className="text-xs leading-relaxed max-w-xs" style={{ color: 'var(--navy-450)' }}>
+              &ldquo;Find the loan that fits your finances — not just the lowest advertised rate.&rdquo;
             </p>
-            <p className="text-xs text-slate-400 max-w-md leading-relaxed">
-              Empowering borrowers with structured financial profile analysis, transparent eligibility criteria, and multi-dimensional loan comparison.
+            <p className="text-[11px] leading-relaxed max-w-sm" style={{ color: 'var(--navy-450)' }}>
+              Loan information is for comparison and educational purposes only. Rates and fees shown are indicative. Actual approval terms are determined solely by lending institutions based on their underwriting criteria.
             </p>
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <h4 className="text-xs font-semibold text-white uppercase tracking-wider mb-4">
-              Platform
-            </h4>
-            <ul className="space-y-2.5 text-xs">
-              <li>
-                <Link href="/" className="hover:text-white transition-colors">
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link href="/dashboard" className="hover:text-white transition-colors">
-                  Borrower Dashboard
-                </Link>
-              </li>
-              <li>
-                <Link href="/profile" className="hover:text-white transition-colors">
-                  Profile Assessment
-                </Link>
-              </li>
-              <li>
-                <Link href="/#how-it-works" className="hover:text-white transition-colors">
-                  How it Works
-                </Link>
-              </li>
+          {/* Platform links */}
+          <div className="space-y-3">
+            <h4 className="text-[11px] font-semibold text-white">Platform</h4>
+            <ul className="space-y-2 text-xs" style={{ color: 'var(--navy-450)' }}>
+              {[
+                { label: 'Dashboard', href: '/dashboard' },
+                { label: 'Profile assessment', href: '/profile' },
+                { label: 'Loan comparison', href: '/compare' },
+                { label: 'My recommendations', href: '/recommendations' },
+              ].map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href}
+                    className="hover:text-white transition-colors"
+                    style={{ color: 'inherit' }}>
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Security & Data Integrity */}
-          <div>
-            <h4 className="text-xs font-semibold text-white uppercase tracking-wider mb-4">
-              Privacy & Security
-            </h4>
-            <ul className="space-y-2.5 text-xs text-slate-400">
+          {/* Security */}
+          <div className="space-y-3">
+            <h4 className="text-[11px] font-semibold text-white">Security</h4>
+            <ul className="space-y-2.5 text-xs" style={{ color: 'var(--navy-450)' }}>
               <li className="flex items-center gap-2">
-                <Lock className="w-3.5 h-3.5 text-blue-400 shrink-0" />
+                <Lock className="w-3.5 h-3.5 flex-shrink-0" style={{ color: 'var(--navy-300)' }} />
                 <span>Row Level Security (RLS)</span>
               </li>
               <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                <CheckCircle2 className="w-3.5 h-3.5 flex-shrink-0" style={{ color: 'var(--navy-300)' }} />
                 <span>No password storage on our servers</span>
               </li>
               <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                <CheckCircle2 className="w-3.5 h-3.5 flex-shrink-0" style={{ color: 'var(--navy-300)' }} />
                 <span>Isolated user data partitions</span>
               </li>
             </ul>
           </div>
         </div>
 
-        {/* Mandatory Regulatory & Informational Disclaimer */}
-        <div className="pt-8 border-t border-slate-800/80 text-xs text-slate-400 space-y-3">
-          <div className="p-4 rounded-xl bg-slate-800/60 border border-slate-700/60">
-            <p className="text-slate-300 font-medium mb-1">
-              Important Financial Disclaimer:
-            </p>
-            <p className="leading-relaxed">
-              Loan information and recommendations are for informational purposes and should be verified with the lender before applying. LoanFit AI does not provide loan approval guarantees. Actual loan approval, final interest rates, processing charges, and terms are determined solely by respective lending institutions based on individual credit appraisal and bank policies.
-            </p>
-          </div>
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2 text-[11px]">
-            <div className="flex items-center gap-3">
-              <img
-                src="/images/adarsh_karpe.jpg"
-                alt="Adarsh Karpe"
-                className="w-8 h-8 rounded-full object-cover object-top ring-2 ring-blue-500/40 shadow-sm"
-              />
-              <div>
-                <p className="text-slate-200 font-semibold flex items-center gap-1.5">
-                  <span className="text-blue-400 font-normal">Technical Head:</span>
-                  <span>Adarsh Karpe</span>
-                </p>
-                <p className="text-slate-500 text-[10px]">© {new Date().getFullYear()} LoanFit AI. All rights reserved.</p>
+        {/* Bottom strip */}
+        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4"
+          style={{ borderTop: '1px solid var(--navy-800)' }}>
+
+          {/* Technical Head */}
+          <div className="flex items-center gap-2.5">
+            <Image
+              src="/images/adarsh_karpe.jpg"
+              alt="Adarsh Karpe"
+              width={32}
+              height={32}
+              className="rounded-full object-cover object-top"
+              style={{ outline: '2px solid var(--navy-600)', outlineOffset: '1px' }}
+            />
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-semibold text-white">Adarsh Karpe</span>
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold text-white"
+                  style={{ background: 'var(--navy-600)' }}>
+                  Technical Head
+                </span>
               </div>
+              <span className="text-[10px]" style={{ color: 'var(--navy-450)' }}>LoanFit AI Platform</span>
             </div>
-            <p className="text-slate-400">Built for precision, transparency, and borrower control.</p>
           </div>
+
+          <p className="text-[11px]" style={{ color: 'var(--navy-450)' }}>
+            &copy; {new Date().getFullYear()} LoanFit AI. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>

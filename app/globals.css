@@ -4,29 +4,143 @@
 
 @layer base {
   :root {
-    --background: 248 250 252;
-    --foreground: 15 23 42;
+    /* Raw Navy Scale */
+    --navy-950: #00002A;
+    --navy-800: #13294B;
+    --navy-600: #1A3F75;
+    --navy-450: #4E6A9C;
+    --navy-300: #4EA4CC;
+    --navy-150: #A8C0D4;
+    --navy-050: #DCE6F0;
+    --white:    #FFFFFF;
+
+    /* Semantic Default: Light Mode for Data Density & Contrast */
+    --bg-canvas: #F4F7FA;
+    --bg-surface: #FFFFFF;
+    --bg-raised: #FFFFFF;
+    --bg-glass: rgba(255, 255, 255, 0.76);
+    
+    --text-primary: #00002A;
+    --text-secondary: #314E74;
+    --text-muted: #5C769D;
+    --text-inverse: #FFFFFF;
+
+    --border-subtle: #D2DFEB;
+    --border-strong: #A8C0D4;
+    --border-focus: #1A3F75;
+
+    --accent-primary: #1A3F75;
+    --accent-data: #4EA4CC;
+
+    /* Status Tokens (Desaturated / Cool) */
+    --status-eligible: #1C7C54;
+    --status-eligible-bg: rgba(28, 124, 84, 0.10);
+    --status-borderline: #B4781E;
+    --status-borderline-bg: rgba(180, 120, 30, 0.10);
+    --status-ineligible: #9B3232;
+    --status-ineligible-bg: rgba(155, 50, 50, 0.10);
+
+    /* Elevation */
+    --shadow-raised: 0 1px 2px rgba(0, 0, 42, 0.04), 0 8px 24px -8px rgba(0, 0, 42, 0.08);
+
+    /* Animation */
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+
+  :root[data-theme="dark"],
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg-canvas: #00002A;
+      --bg-surface: #091932;
+      --bg-raised: #13294B;
+      --bg-glass: rgba(19, 41, 75, 0.78);
+
+      --text-primary: #FFFFFF;
+      --text-secondary: #DCE6F0;
+      --text-muted: #8AA4C2;
+      --text-inverse: #00002A;
+
+      --border-subtle: #1E3B68;
+      --border-strong: #4E6A9C;
+      --border-focus: #4EA4CC;
+
+      --accent-primary: #4EA4CC;
+      --accent-data: #6DBFE4;
+
+      --status-eligible: #38A169;
+      --status-eligible-bg: rgba(56, 161, 105, 0.16);
+      --status-borderline: #D69E2E;
+      --status-borderline-bg: rgba(214, 158, 46, 0.16);
+      --status-ineligible: #E53E3E;
+      --status-ineligible-bg: rgba(229, 62, 62, 0.16);
+    }
   }
 
   body {
-    color: rgb(var(--foreground));
-    background: rgb(var(--background));
-    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    background-color: var(--bg-canvas);
+    color: var(--text-primary);
+    font-family: var(--font-geist-sans), system-ui, sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Custom subtle scrollbar */
+  /* Strict Tabular Numeral Enforcement on Numbers */
+  .tabular-nums {
+    font-family: var(--font-geist-mono), monospace;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Keyboard Focus Indicators */
+  :focus-visible {
+    outline: 2px solid var(--border-focus);
+    outline-offset: 2px;
+  }
+
+  /* Custom Clean Scrollbar */
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: #f1f5f9;
+    background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
+    background: var(--border-strong);
     border-radius: 9999px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #94a3b8;
+    background: var(--navy-450);
+  }
+}
+
+/* Frosted Glass Recipe (Floating Layers Only) */
+.glass-floating {
+  background: color-mix(in srgb, var(--bg-surface) 74%, transparent);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid color-mix(in srgb, var(--white) 18%, transparent);
+}
+
+/* Single allowed low-contrast radial background on dark hero */
+.hero-radial-wash {
+  background: radial-gradient(circle at 50% -10%, #13294B 0%, #00002A 70%);
+}
+
+/* Active Button State (1px translate down, border-color shift, no scale bounce) */
+button:active:not(:disabled),
+a:active:not(:disabled) {
+  transform: translateY(1px);
+  transition-duration: 120ms;
+}
+
+/* Respect Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

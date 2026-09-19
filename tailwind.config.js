@@ -9,60 +9,73 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: '#f8fafc',
-        foreground: '#0f172a',
-        primary: {
-          DEFAULT: '#0f172a',
-          foreground: '#ffffff',
-          hover: '#1e293b',
-          subtle: '#f1f5f9',
+        navy: {
+          950: 'var(--navy-950)',
+          800: 'var(--navy-800)',
+          600: 'var(--navy-600)',
+          450: 'var(--navy-450)',
+          300: 'var(--navy-300)',
+          150: 'var(--navy-150)',
+          '050': 'var(--navy-050)',
         },
-        secondary: {
-          DEFAULT: '#475569',
-          foreground: '#f8fafc',
-          subtle: '#f8fafc',
+        canvas: 'var(--bg-canvas)',
+        surface: {
+          DEFAULT: 'var(--bg-surface)',
+          raised: 'var(--bg-raised)',
+          glass: 'var(--bg-glass)',
         },
-        accent: {
-          DEFAULT: '#2563eb',
-          foreground: '#ffffff',
-          light: '#eff6ff',
-          hover: '#1d4ed8',
+        txt: {
+          primary: 'var(--text-primary)',
+          secondary: 'var(--text-secondary)',
+          muted: 'var(--text-muted)',
+          inverse: 'var(--text-inverse)',
         },
-        success: {
-          DEFAULT: '#059669',
-          light: '#ecfdf5',
-          dark: '#065f46',
+        bdr: {
+          subtle: 'var(--border-subtle)',
+          strong: 'var(--border-strong)',
+          focus: 'var(--border-focus)',
         },
-        warning: {
-          DEFAULT: '#d97706',
-          light: '#fffbeb',
+        brand: {
+          primary: 'var(--accent-primary)',
+          data: 'var(--accent-data)',
         },
-        danger: {
-          DEFAULT: '#dc2626',
-          light: '#fef2f2',
-        },
-        card: {
-          DEFAULT: '#ffffff',
-          foreground: '#0f172a',
-          border: '#e2e8f0',
-        },
-        muted: {
-          DEFAULT: '#64748b',
-          light: '#94a3b8',
+        status: {
+          eligible: 'var(--status-eligible)',
+          'eligible-bg': 'var(--status-eligible-bg)',
+          borderline: 'var(--status-borderline)',
+          'borderline-bg': 'var(--status-borderline-bg)',
+          ineligible: 'var(--status-ineligible)',
+          'ineligible-bg': 'var(--status-ineligible-bg)',
         },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        display: ['Plus Jakarta Sans', 'Inter', 'system-ui', 'sans-serif'],
-      },
-      boxShadow: {
-        card: '0 4px 20px -2px rgba(15, 23, 42, 0.05), 0 2px 6px -1px rgba(15, 23, 42, 0.03)',
-        'card-hover': '0 12px 30px -4px rgba(15, 23, 42, 0.08), 0 4px 10px -2px rgba(15, 23, 42, 0.04)',
-        glow: '0 0 25px -5px rgba(37, 99, 235, 0.15)',
+        sans: ['var(--font-geist-sans)', 'system-ui', 'sans-serif'],
+        mono: ['var(--font-geist-mono)', 'monospace'],
       },
       borderRadius: {
-        '2xl': '1rem',
-        '3xl': '1.5rem',
+        xs: '2px',
+        sm: '4px',
+        md: '8px',
+        xl: '12px',
+        '2xl': '16px',
+        '3xl': '28px',
+      },
+      boxShadow: {
+        raised: 'var(--shadow-raised)',
+        subtle: '0 1px 2px rgba(0, 0, 42, 0.04)',
+      },
+      transitionTimingFunction: {
+        'ease-out-custom': 'cubic-bezier(0.16, 1, 0.3, 1)',
+        'ease-in-out-custom': 'cubic-bezier(0.65, 0, 0.35, 1)',
+      },
+      transitionDuration: {
+        instant: '120ms',
+        fast: '200ms',
+        base: '320ms',
+        slow: '560ms',
+      },
+      maxWidth: {
+        prose: '68ch',
       },
     },
   },
