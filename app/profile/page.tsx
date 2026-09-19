@@ -125,19 +125,44 @@ function StepIndicator({ current, total }: { current: Step; total: number }) {
   );
 }
 
-// ─── Priority Slider ──────────────────────────────────────────────────────────
-
 function PrioritySlider({ id, label, value, onChange }: { id: string; label: string; value: number; onChange: (v: number) => void }) {
   const pct = value;
   return (
-    <div className="space-y-2">
-      <div className="flex items-center justify-between">
-        <label htmlFor={id} className="text-xs font-medium" style={{ color: 'var(--text-secondary)' }}>{label}</label>
-        <span className="tabular-nums font-mono text-xs font-semibold" style={{ color: 'var(--text-primary)' }}>{value}</span>
+    <div className="space-y-1.5">
+      {/* Collision-safe: gap-3, flex-shrink-0 on value, min-width-0 on label */}
+      <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '12px' }}>
+        <label
+          htmlFor={id}
+          style={{
+            minWidth: 0,
+            overflow: 'hidden',
+            whiteSpace: 'nowrap',
+            textOverflow: 'ellipsis',
+            fontSize: '12px',
+            fontWeight: 500,
+            color: 'var(--text-secondary)',
+            flexShrink: 1,
+          }}
+        >
+          {label}
+        </label>
+        <span
+          style={{
+            flexShrink: 0,
+            whiteSpace: 'nowrap',
+            fontFamily: 'var(--font-geist-mono, monospace)',
+            fontVariantNumeric: 'tabular-nums',
+            fontSize: '12px',
+            fontWeight: 700,
+            color: 'var(--text-primary)',
+          }}
+        >
+          {value}
+        </span>
       </div>
-      <div className="relative h-5 flex items-center">
-        <div className="w-full h-1.5 rounded-full" style={{ background: 'var(--navy-050)' }}>
-          <div className="h-full rounded-full" style={{ width: `${pct}%`, background: 'var(--navy-600)' }} />
+      <div style={{ position: 'relative', height: '20px', display: 'flex', alignItems: 'center' }}>
+        <div style={{ width: '100%', height: '6px', borderRadius: '9999px', background: 'var(--navy-150)', overflow: 'hidden' }}>
+          <div style={{ height: '100%', borderRadius: '9999px', background: 'var(--navy-300)', width: `${pct}%` }} />
         </div>
         <input
           id={id}
@@ -147,14 +172,27 @@ function PrioritySlider({ id, label, value, onChange }: { id: string; label: str
           step={5}
           value={value}
           onChange={e => onChange(Number(e.target.value))}
-          className="absolute inset-0 w-full opacity-0 cursor-pointer"
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0, cursor: 'pointer', zIndex: 2 }}
         />
-        <div className="absolute w-4 h-4 rounded-full border-2 pointer-events-none"
-          style={{ left: `calc(${pct}% - 8px)`, background: 'white', borderColor: 'var(--navy-600)', boxShadow: '0 1px 4px rgba(0,0,42,.16)' }} />
+        <div
+          style={{
+            position: 'absolute',
+            left: `calc(${pct}% - 9px)`,
+            width: '18px',
+            height: '18px',
+            borderRadius: '50%',
+            background: 'var(--navy-600)',
+            border: '2px solid white',
+            boxShadow: '0 1px 4px rgba(0,0,42,.18)',
+            pointerEvents: 'none',
+            zIndex: 1,
+          }}
+        />
       </div>
     </div>
   );
 }
+
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 
@@ -373,56 +411,48 @@ export default function ProfilePage() {
                     {errors.loanType && <p className="text-[11px] mt-1.5" style={{ color: 'var(--status-ineligible)' }}>{errors.loanType}</p>}
                   </Field>
 
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <Label htmlFor="loanAmount">Loan amount</Label>
-                      <span className="tabular-nums font-mono text-xs font-semibold" style={{ color: 'var(--text-primary)' }}>
+                  <div className="space-y-1.5">
+                    {/* Collision-safe header: gap ensures label never overlaps value */}
+                    <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '12px' }}>
+                      <label htmlFor="loanAmount" style={{ minWidth: 0, overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', fontSize: '12px', fontWeight: 500, color: 'var(--text-secondary)', flexShrink: 1 }}>Loan amount</label>
+                      <span style={{ flexShrink: 0, whiteSpace: 'nowrap', fontFamily: 'var(--font-geist-mono, monospace)', fontVariantNumeric: 'tabular-nums', fontSize: '12px', fontWeight: 700, color: 'var(--text-primary)' }}>
                         ₹{formatINR(form.loanAmount)}
                       </span>
                     </div>
-                    <div className="relative h-5 flex items-center">
-                      <div className="w-full h-1.5 rounded-full" style={{ background: 'var(--navy-050)' }}>
-                        <div className="h-full rounded-full"
-                          style={{ width: `${((form.loanAmount - 100000) / (10000000 - 100000)) * 100}%`, background: 'var(--navy-600)' }} />
+                    <div style={{ position: 'relative', height: '20px', display: 'flex', alignItems: 'center' }}>
+                      <div style={{ width: '100%', height: '6px', borderRadius: '9999px', background: 'var(--navy-150)', overflow: 'hidden' }}>
+                        <div style={{ height: '100%', borderRadius: '9999px', background: 'var(--navy-300)', width: `${((form.loanAmount - 100000) / (10000000 - 100000)) * 100}%` }} />
                       </div>
                       <input id="loanAmount" type="range" min={100000} max={10000000} step={100000}
                         value={form.loanAmount}
                         onChange={e => set('loanAmount')(Number(e.target.value))}
-                        className="absolute inset-0 w-full opacity-0 cursor-pointer"
+                        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0, cursor: 'pointer', zIndex: 2 }}
                       />
-                      <div className="absolute w-4 h-4 rounded-full border-2 pointer-events-none"
-                        style={{
-                          left: `calc(${((form.loanAmount - 100000) / (10000000 - 100000)) * 100}% - 8px)`,
-                          background: 'white', borderColor: 'var(--navy-600)', boxShadow: '0 1px 4px rgba(0,0,42,.16)'
-                        }} />
+                      <div style={{ position: 'absolute', left: `calc(${((form.loanAmount - 100000) / (10000000 - 100000)) * 100}% - 9px)`, width: '18px', height: '18px', borderRadius: '50%', background: 'var(--navy-600)', border: '2px solid white', boxShadow: '0 1px 4px rgba(0,0,42,.18)', pointerEvents: 'none', zIndex: 1 }} />
                     </div>
                     <div className="flex justify-between text-[10px]" style={{ color: 'var(--text-muted)' }}>
                       <span>₹1 Lakh</span><span>₹1 Crore</span>
                     </div>
                   </div>
 
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <Label htmlFor="tenureYears">Repayment tenure</Label>
-                      <span className="tabular-nums font-mono text-xs font-semibold" style={{ color: 'var(--text-primary)' }}>
-                        {form.tenureYears} year{form.tenureYears !== 1 ? 's' : ''}
+
+                  <div className="space-y-1.5">
+                    <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '12px' }}>
+                      <label htmlFor="tenureYears" style={{ minWidth: 0, overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', fontSize: '12px', fontWeight: 500, color: 'var(--text-secondary)', flexShrink: 1 }}>Repayment tenure</label>
+                      <span style={{ flexShrink: 0, whiteSpace: 'nowrap', fontFamily: 'var(--font-geist-mono, monospace)', fontVariantNumeric: 'tabular-nums', fontSize: '12px', fontWeight: 700, color: 'var(--text-primary)' }}>
+                        {form.tenureYears} yr{form.tenureYears !== 1 ? 's' : ''}
                       </span>
                     </div>
-                    <div className="relative h-5 flex items-center">
-                      <div className="w-full h-1.5 rounded-full" style={{ background: 'var(--navy-050)' }}>
-                        <div className="h-full rounded-full"
-                          style={{ width: `${((form.tenureYears - 1) / (maxTenure - 1)) * 100}%`, background: 'var(--navy-600)' }} />
+                    <div style={{ position: 'relative', height: '20px', display: 'flex', alignItems: 'center' }}>
+                      <div style={{ width: '100%', height: '6px', borderRadius: '9999px', background: 'var(--navy-150)', overflow: 'hidden' }}>
+                        <div style={{ height: '100%', borderRadius: '9999px', background: 'var(--navy-300)', width: `${((form.tenureYears - 1) / (maxTenure - 1)) * 100}%` }} />
                       </div>
                       <input id="tenureYears" type="range" min={1} max={maxTenure} step={1}
                         value={form.tenureYears}
                         onChange={e => set('tenureYears')(Number(e.target.value))}
-                        className="absolute inset-0 w-full opacity-0 cursor-pointer"
+                        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0, cursor: 'pointer', zIndex: 2 }}
                       />
-                      <div className="absolute w-4 h-4 rounded-full border-2 pointer-events-none"
-                        style={{
-                          left: `calc(${((form.tenureYears - 1) / (maxTenure - 1)) * 100}% - 8px)`,
-                          background: 'white', borderColor: 'var(--navy-600)', boxShadow: '0 1px 4px rgba(0,0,42,.16)'
-                        }} />
+                      <div style={{ position: 'absolute', left: `calc(${((form.tenureYears - 1) / (maxTenure - 1)) * 100}% - 9px)`, width: '18px', height: '18px', borderRadius: '50%', background: 'var(--navy-600)', border: '2px solid white', boxShadow: '0 1px 4px rgba(0,0,42,.18)', pointerEvents: 'none', zIndex: 1 }} />
                     </div>
                     <div className="flex justify-between text-[10px]" style={{ color: 'var(--text-muted)' }}>
                       <span>1 year</span><span>{maxTenure} years</span>

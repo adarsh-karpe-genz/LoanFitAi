@@ -15,10 +15,12 @@
     --white:    #FFFFFF;
 
     /* Semantic Default: Light Mode for Data Density & Contrast */
-    --bg-canvas: #F4F7FA;
-    --bg-surface: #FFFFFF;
+    /* bg-canvas: very subtle navy-tinted background so all cards feel like one product */
+    --bg-canvas: #EEF3F8;
+    /* bg-surface: slightly warmer than canvas — cards sit visibly above the background */
+    --bg-surface: #F8FAFC;
     --bg-raised: #FFFFFF;
-    --bg-glass: rgba(255, 255, 255, 0.76);
+    --bg-glass: rgba(248, 250, 252, 0.76);
     
     --text-primary: #00002A;
     --text-secondary: #314E74;
