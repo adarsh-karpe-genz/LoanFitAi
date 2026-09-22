@@ -23,5 +23,12 @@ export function createClient() {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
     'placeholder-anon-key';
 
-  return createBrowserClient<Database>(supabaseUrl, supabasePublishableKey);
+  return createBrowserClient<Database>(supabaseUrl, supabasePublishableKey, {
+    auth: {
+      persistSession: true,
+      autoRefreshToken: true,
+      detectSessionInUrl: true,
+    },
+  });
 }
+

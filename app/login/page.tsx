@@ -12,6 +12,9 @@ function LoginFormContent() {
   const searchParams = useSearchParams();
   const redirectPath = searchParams.get('redirect') || '/dashboard';
   const resetSuccess = searchParams.get('reset') === 'success';
+  const sessionExpired =
+    searchParams.get('reason') === 'session_expired' ||
+    searchParams.get('error') === 'session_expired';
 
   const [formData, setFormData] = useState<LoginInput>({
     email: '',
@@ -47,6 +50,8 @@ function LoginFormContent() {
     }
 
     try {
+      let currentUserId = '';
+
       if (isSupabaseConfigured()) {
         const supabase = createClient();
         const { data, error } = await supabase.auth.signInWithPassword({
@@ -60,14 +65,34 @@ function LoginFormContent() {
           return;
         }
 
-        router.push(redirectPath);
-        router.refresh();
+        currentUserId = data.user?.id || '';
       } else {
         // Local demo mode fallback
-        const demoUser = { id: 'demo-user-123', email: formData.email };
+        currentUserId = 'demo-user-123';
+        const demoUser = { id: currentUserId, email: formData.email };
         localStorage.setItem('loanfit_demo_user', JSON.stringify(demoUser));
-        router.push(redirectPath);
       }
+
+      // ── Step 1 & 2 Database check: determine next screen ──
+      let targetPath = redirectPath;
+      try {
+        const res = await fetch('/api/profile');
+        if (res.ok) {
+          const profileData = await res.json();
+          if (!profileData.isPersonalInfoCompleted) {
+            // First-ever login: go to Personal Details
+            targetPath = '/profile';
+          } else if (redirectPath === '/dashboard') {
+            // Subsequent logins: go straight to loan type / recommendations
+            targetPath = profileData.loanRequirement ? '/recommendations' : '/profile';
+          }
+        }
+      } catch {
+        // default to redirectPath
+      }
+
+      router.push(targetPath);
+      router.refresh();
     } catch (err: any) {
       setErrors({ general: err.message || 'An unexpected error occurred during login.' });
       setLoading(false);
@@ -95,6 +120,14 @@ function LoginFormContent() {
           <span>Password updated successfully. Please log in with your new password.</span>
         </div>
       )}
+
+      {sessionExpired && (
+        <div className="p-3.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs font-medium flex items-center gap-2">
+          <AlertCircle className="w-4 h-4 text-amber-600 shrink-0" />
+          <span>Your session has expired. Please log in again.</span>
+        </div>
+      )}
+
 
       {errors.general && (
         <div className="p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-medium flex items-center gap-2">

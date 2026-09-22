@@ -4,6 +4,7 @@ import { GeistMono } from 'geist/font/mono';
 import './globals.css';
 import Navbar from '@/components/ui/Navbar';
 import Footer from '@/components/ui/Footer';
+import IdleSessionTimeout from '@/components/auth/IdleSessionTimeout';
 
 export const metadata: Metadata = {
   title: 'LoanFit AI — Intelligent Loan Suitability & Comparison',
@@ -19,6 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`}>
       <body className="min-h-screen flex flex-col bg-canvas text-txt-primary font-sans antialiased selection:bg-navy-600 selection:text-white">
+        <IdleSessionTimeout />
         <Navbar />
         <main className="flex-1 pt-16 md:pt-20">{children}</main>
         <Footer />

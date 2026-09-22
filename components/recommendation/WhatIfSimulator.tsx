@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, useSpring } from 'framer-motion';
+import { isSupabaseConfigured } from '@/lib/supabase/client';
 
 // ─── Utilities ────────────────────────────────────────────────────────────────
 
@@ -15,7 +16,6 @@ function formatINR(value: number): string {
     const s = remainder.toString().padStart(5, '0');
     return `₹${lakhs},${s.slice(0, 2)},${s.slice(2)}`;
   }
-  // Below 1 lakh: standard Indian format
   const s = rounded.toString();
   if (s.length <= 3) return `₹${s}`;
   return `₹${s.slice(0, s.length - 3)},${s.slice(-3)}`;
@@ -43,15 +43,7 @@ function AnimatedNumber({ value, format }: { value: number; format: (v: number) 
   return <span className="tabular-nums font-mono">{format(display)}</span>;
 }
 
-// ─── Slider ───────────────────────────────────────────────────────────────────
-//
-// FIX: Label and value are in a flex row with:
-//   - gap-3 (minimum 12px separation)
-//   - label: min-w-0, overflow-hidden, whitespace-nowrap, text-overflow: ellipsis
-//     → truncates before it ever touches the value
-//   - value: flex-shrink-0, whitespace-nowrap
-//     → value never compresses or wraps
-// This fixes the "Repayment tenure 15 years" overlap completely.
+// ─── Slider Component ─────────────────────────────────────────────────────────
 
 interface SliderProps {
   id: string;
@@ -70,7 +62,6 @@ function Slider({ id, label, value, min, max, step, format, onChange }: SliderPr
 
   return (
     <div className="space-y-1.5">
-      {/* ── Label + Value row: explicit flex with gap, no collision possible ── */}
       <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '12px' }}>
         <label
           htmlFor={id}
@@ -102,9 +93,7 @@ function Slider({ id, label, value, min, max, step, format, onChange }: SliderPr
         </span>
       </div>
 
-      {/* ── Track + thumb ── */}
       <div style={{ position: 'relative', height: '20px', display: 'flex', alignItems: 'center' }}>
-        {/* Track */}
         <div
           style={{
             width: '100%',
@@ -114,7 +103,6 @@ function Slider({ id, label, value, min, max, step, format, onChange }: SliderPr
             overflow: 'hidden',
           }}
         >
-          {/* Filled portion */}
           <div
             style={{
               height: '100%',
@@ -126,7 +114,6 @@ function Slider({ id, label, value, min, max, step, format, onChange }: SliderPr
           />
         </div>
 
-        {/* Native input (invisible, handles all interaction) */}
         <input
           id={id}
           type="range"
@@ -154,7 +141,6 @@ function Slider({ id, label, value, min, max, step, format, onChange }: SliderPr
           aria-valuetext={format(value)}
         />
 
-        {/* Thumb visual */}
         <div
           style={{
             position: 'absolute',
@@ -178,11 +164,6 @@ function Slider({ id, label, value, min, max, step, format, onChange }: SliderPr
 }
 
 // ─── Stat Row ─────────────────────────────────────────────────────────────────
-//
-// FIX: "Principal ₹20 Lakh" and "Total interest ₹15,98,015" were
-// rendering in 2 columns of a grid inside an already-narrow container.
-// Now each stat is its own flex row: label left, value right, gap ensures
-// they can never overlap even with 8-digit currency strings.
 
 function StatRow({
   label,
@@ -245,15 +226,129 @@ function foirStatus(foir: number) {
   return { label: 'Exceeds 60% cap', color: 'var(--status-ineligible)', bg: 'var(--status-ineligible-bg)', icon: '✗' };
 }
 
+function cibilRating(score: number) {
+  if (score >= 750) return { label: 'Excellent', color: 'var(--status-eligible)', bg: 'var(--status-eligible-bg)' };
+  if (score >= 700) return { label: 'Good', color: 'var(--status-eligible)', bg: 'var(--status-eligible-bg)' };
+  if (score >= 650) return { label: 'Fair', color: 'var(--status-borderline)', bg: 'var(--status-borderline-bg)' };
+  return { label: 'Needs attention', color: 'var(--status-ineligible)', bg: 'var(--status-ineligible-bg)' };
+}
+
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 const DEMO_RATE = 8.75;
 
 export default function WhatIfSimulator() {
-  const [amount, setAmount] = useState(2000000);
-  const [tenureYears, setTenureYears] = useState(15);
-  const [income, setIncome] = useState(80000);
+  const [amount, setAmount] = useState(3000000);
+  const [tenureYears, setTenureYears] = useState(20);
+  const [income, setIncome] = useState(60000);
   const [existingEMI, setExistingEMI] = useState(5000);
+  const [creditScore, setCreditScore] = useState(760);
+  const [isSaved, setIsSaved] = useState(false);
+
+  const isInitialMount = useRef(true);
+  const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // ── Load saved values from database or localStorage on mount ────────────────
+  useEffect(() => {
+    async function loadSavedParams() {
+      try {
+        // Try fetching verified profile from API
+        const res = await fetch('/api/profile');
+        if (res.ok) {
+          const data = await res.json();
+          if (data.financialInfo?.monthly_income) {
+            setIncome(Number(data.financialInfo.monthly_income));
+          }
+          if (data.financialInfo?.existing_emi !== undefined) {
+            setExistingEMI(Number(data.financialInfo.existing_emi));
+          }
+          if (data.financialInfo?.credit_score) {
+            setCreditScore(Number(data.financialInfo.credit_score));
+          }
+          if (data.loanRequirement?.loan_amount) {
+            setAmount(Number(data.loanRequirement.loan_amount));
+          }
+          if (data.loanRequirement?.tenure_years) {
+            setTenureYears(Number(data.loanRequirement.tenure_years));
+          }
+        } else {
+          // Fallback to localStorage demo key
+          const stored = localStorage.getItem('loanfit_simulator_params');
+          if (stored) {
+            const p = JSON.parse(stored);
+            if (p.amount) setAmount(p.amount);
+            if (p.tenureYears) setTenureYears(p.tenureYears);
+            if (p.income) setIncome(p.income);
+            if (p.existingEMI !== undefined) setExistingEMI(p.existingEMI);
+            if (p.creditScore) setCreditScore(p.creditScore);
+          }
+        }
+      } catch {
+        // use default values
+      }
+    }
+
+    loadSavedParams();
+  }, []);
+
+  // ── Debounced Auto-Save to Database & LocalStorage ──────────────────────────
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+
+    if (saveTimeoutRef.current) {
+      clearTimeout(saveTimeoutRef.current);
+    }
+
+    saveTimeoutRef.current = setTimeout(async () => {
+      // 1. Save to localStorage for instant local persistence
+      try {
+        localStorage.setItem(
+          'loanfit_simulator_params',
+          JSON.stringify({ amount, tenureYears, income, existingEMI, creditScore })
+        );
+      } catch {
+        // ignore
+      }
+
+      // 2. Persist to Supabase database via API
+      try {
+        await Promise.all([
+          fetch('/api/profile', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              action: 'financial',
+              monthly_income: income,
+              existing_emi: existingEMI,
+              credit_score: creditScore,
+            }),
+          }),
+          fetch('/api/profile', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              action: 'loan_requirement',
+              loan_type: 'Home Loan',
+              loan_amount: amount,
+              tenure_years: tenureYears,
+            }),
+          }),
+        ]);
+
+        setIsSaved(true);
+        setTimeout(() => setIsSaved(false), 2000);
+      } catch (err) {
+        console.error('Failed to auto-save simulator params:', err);
+      }
+    }, 600);
+
+    return () => {
+      if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
+    };
+  }, [amount, tenureYears, income, existingEMI, creditScore]);
 
   const tenureMonths = tenureYears * 12;
   const emi = calcEMI(amount, DEMO_RATE, tenureMonths);
@@ -263,8 +358,8 @@ export default function WhatIfSimulator() {
   const foir = income > 0 ? (existingEMI + emi) / income : 0;
   const foirPct = foir * 100;
   const status = foirStatus(foir);
+  const cibil = cibilRating(creditScore);
 
-  // ── Separator line style ──
   const divider = { borderTop: '1px solid var(--border-subtle)' };
 
   return (
@@ -279,7 +374,18 @@ export default function WhatIfSimulator() {
           marginBottom: '12px',
         }}
       >
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+        <div className="flex items-center justify-between mb-3">
+          <span className="text-xs font-semibold" style={{ color: 'var(--text-primary)' }}>
+            Financial & Loan Parameters
+          </span>
+          {isSaved && (
+            <span className="text-[10px] font-medium text-emerald-600 transition-opacity">
+              ✓ Saved to profile
+            </span>
+          )}
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
           <Slider
             id="sim-amount"
             label="Loan amount"
@@ -320,6 +426,16 @@ export default function WhatIfSimulator() {
             format={(v) => (v === 0 ? 'None' : formatINR(v))}
             onChange={setExistingEMI}
           />
+          <Slider
+            id="sim-cibil"
+            label="Credit score (CIBIL)"
+            value={creditScore}
+            min={300}
+            max={900}
+            step={5}
+            format={(v) => `${v} (${cibil.label})`}
+            onChange={setCreditScore}
+          />
         </div>
 
         <p
@@ -332,7 +448,7 @@ export default function WhatIfSimulator() {
             lineHeight: '1.5',
           }}
         >
-          {DEMO_RATE}% p.a. illustrative rate. Final rate subject to lender underwriting.
+          {DEMO_RATE}% p.a. illustrative rate. Values automatically persist to your borrower profile.
         </p>
       </div>
 
@@ -367,7 +483,7 @@ export default function WhatIfSimulator() {
         </span>
       </div>
 
-      {/* ── Cost breakdown: vertical stack (no 2-col grid) ── */}
+      {/* ── Cost breakdown ── */}
       <div
         style={{
           borderRadius: '12px',
@@ -377,7 +493,6 @@ export default function WhatIfSimulator() {
           marginBottom: '8px',
         }}
       >
-        {/* Each row is a separate StatRow — label left, value right, gap: 12px */}
         <StatRow label="Principal" value={<AnimatedNumber value={amount} format={formatINR} />} />
         <div style={divider}>
           <StatRow label="Total interest" value={<AnimatedNumber value={totalInterest} format={formatINR} />} />
@@ -395,7 +510,7 @@ export default function WhatIfSimulator() {
         </div>
       </div>
 
-      {/* ── FOIR meter ── */}
+      {/* ── FOIR & Credit score meter ── */}
       <div
         style={{
           borderRadius: '12px',
@@ -404,7 +519,6 @@ export default function WhatIfSimulator() {
           padding: '12px 16px',
         }}
       >
-        {/* Title row: label left, status tag right — gap ensures no collision */}
         <div
           style={{
             display: 'flex',
@@ -433,7 +547,6 @@ export default function WhatIfSimulator() {
           </span>
         </div>
 
-        {/* Bar */}
         <div
           style={{
             width: '100%',
@@ -451,7 +564,6 @@ export default function WhatIfSimulator() {
           />
         </div>
 
-        {/* Percentage + cap label — flex, gap, no overlap */}
         <div
           style={{
             display: 'flex',

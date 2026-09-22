@@ -20,9 +20,28 @@ export interface Profile {
   age: number;
   employment_type: EmploymentType;
   location: string;
+  city?: string;
+  personal_info_completed_at?: string | null;
   created_at?: string;
   updated_at?: string;
 }
+
+export interface BorrowerProfile {
+  id: string;
+  user_id: string;
+  full_name: string | null;
+  age: number | null;
+  employment_type: string | null;
+  city: string | null;
+  personal_info_completed_at: string | null;
+  monthly_income: number;
+  monthly_expenses: number;
+  existing_emi: number;
+  credit_score: number | null;
+  created_at?: string;
+  updated_at?: string;
+}
+
 
 export interface FinancialProfile {
   id: string;
