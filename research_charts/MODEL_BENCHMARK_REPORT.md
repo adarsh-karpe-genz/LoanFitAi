@@ -11,9 +11,9 @@
 
 | Model Architecture | Accuracy (%) | Precision (%) | Recall (%) | F1-Score (%) | ROC-AUC (%) | Train Time (s) |
 |---|:---:|:---:|:---:|:---:|:---:|:---:|
-| **Random Forest (Winner)** | **98.86%** | **97.18%** | **99.65%** | **98.40%** | **99.94%** | 3.05s |
-| XGBoost | 98.56% | 96.59% | 99.42% | 97.98% | 99.64% | 2.38s |
-| Logistic Regression | 92.11% | 87.32% | 90.82% | 89.04% | 96.98% | 0.47s |
+| **Random Forest (Winner)** | **98.86%** | **97.18%** | **99.65%** | **98.40%** | **99.94%** | 2.32s |
+| XGBoost | 98.56% | 96.59% | 99.42% | 97.98% | 99.64% | 1.45s |
+| Logistic Regression | 92.11% | 87.32% | 90.82% | 89.04% | 96.98% | 0.36s |
 
 ---
 
@@ -61,8 +61,20 @@ XGBoost & 98.56 & 96.59 & 99.42 & 97.98 & 99.64 \\
 ---
 
 ## 5. Artifact Files on Disk & Git
-- All-in-One Dashboard Figure: `research_charts/all_in_one_model_comparison.png`
-- Standalone Bar Chart: `research_charts/model_comparison_chart.png`
-- Standalone ROC Curve: `research_charts/roc_curves_comparison.png`
+### All-in-One Dashboard:
+- All-in-One Unified Figure: `research_charts/all_in_one_model_comparison.png`
+
+### Individual Single Images:
+- Standalone Comparative Bar Chart: `research_charts/model_comparison_chart.png`
+- Standalone ROC Curves (Combined): `research_charts/roc_curves_comparison.png`
+- Standalone 3-Panel Confusion Matrices: `research_charts/confusion_matrices_comparison.png`
+- Single Confusion Matrix — Random Forest: `research_charts/confusion_matrix_random_forest.png`
+- Single Confusion Matrix — XGBoost: `research_charts/confusion_matrix_xgboost.png`
+- Single Confusion Matrix — Logistic Regression: `research_charts/confusion_matrix_logistic_regression.png`
+- Single ROC Curve — Random Forest: `research_charts/roc_curve_random_forest.png`
+- Single ROC Curve — XGBoost: `research_charts/roc_curve_xgboost.png`
+- Single ROC Curve — Logistic Regression: `research_charts/roc_curve_logistic_regression.png`
+
+### Data & Scripts:
 - Benchmark Results CSV: `research_charts/model_benchmark_results.csv`
-- Script: `train_and_compare_models.py`
+- Benchmark & Plotting Script: `train_and_compare_models.py`

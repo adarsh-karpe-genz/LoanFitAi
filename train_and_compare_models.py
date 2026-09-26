@@ -317,7 +317,7 @@ bar_path = os.path.join(output_dir, 'model_comparison_chart.png')
 plt.savefig(bar_path, dpi=300)
 plt.close()
 
-# Standalone ROC Curves
+# Standalone ROC Curves (Combined)
 fig, ax = plt.subplots(figsize=(8, 7), dpi=300)
 for name, (fpr, tpr, auc_val) in roc_curves.items():
     lw = 2.6 if name == 'Random Forest' else 1.8
@@ -335,6 +335,101 @@ plt.tight_layout()
 roc_path = os.path.join(output_dir, 'roc_curves_comparison.png')
 plt.savefig(roc_path, dpi=300)
 plt.close()
+print(f"📈 Combined ROC Curves saved to: {roc_path}")
+
+# Standalone 3-Panel Confusion Matrix Comparison
+fig, axes = plt.subplots(1, 3, figsize=(16, 5), dpi=300)
+classes = ['Rejected (0)', 'Approved (1)']
+for idx, (name, ax_cm) in enumerate(zip(models.keys(), axes)):
+    cm = confusion_matrices[name]
+    im = ax_cm.imshow(cm, interpolation='nearest', cmap=plt.cm.Blues)
+    acc_val = df_results[df_results['Model']==name]['Accuracy'].values[0] * 100
+    title_suffix = " (Winner)" if name == "Random Forest" else ""
+    ax_cm.set_title(f"{name}{title_suffix}\nAccuracy: {acc_val:.2f}%", fontsize=11.5, fontweight='bold', color='#00002A', pad=10)
+    
+    tick_marks = np.arange(len(classes))
+    ax_cm.set_xticks(tick_marks)
+    ax_cm.set_xticklabels(classes, fontsize=9.5, fontweight='semibold')
+    ax_cm.set_yticks(tick_marks)
+    ax_cm.set_yticklabels(classes, fontsize=9.5, fontweight='semibold')
+    
+    thresh = cm.max() / 2.
+    total = cm.sum()
+    for r in range(cm.shape[0]):
+        for c in range(cm.shape[1]):
+            cnt = cm[r, c]
+            pct = (cnt / total) * 100
+            ax_cm.text(c, r, f"{cnt:,}\n({pct:.1f}%)",
+                       ha="center", va="center",
+                       color="white" if cnt > thresh else "#00002A",
+                       fontsize=10.5, fontweight='bold')
+    
+    ax_cm.set_ylabel('Actual Outcome', fontsize=10, fontweight='bold', color='#00002A')
+    ax_cm.set_xlabel('Predicted Outcome', fontsize=10, fontweight='bold', color='#00002A')
+
+plt.suptitle('Confusion Matrices Comparison on 20,000 Stratified Test Samples', fontsize=13, fontweight='bold', color='#00002A', y=1.02)
+plt.tight_layout()
+cm_all_path = os.path.join(output_dir, 'confusion_matrices_comparison.png')
+plt.savefig(cm_all_path, dpi=300, bbox_inches='tight')
+plt.close()
+print(f"📊 3-Panel Confusion Matrix Comparison saved to: {cm_all_path}")
+
+# Standalone Individual Confusion Matrices (1 image per model)
+for name in models.keys():
+    fig, ax = plt.subplots(figsize=(6.5, 5.5), dpi=300)
+    cm = confusion_matrices[name]
+    im = ax.imshow(cm, interpolation='nearest', cmap=plt.cm.Blues)
+    clean_name = name.lower().replace(' ', '_')
+    acc_val = df_results[df_results['Model']==name]['Accuracy'].values[0] * 100
+    f1_val = df_results[df_results['Model']==name]['F1-Score'].values[0] * 100
+    title_extra = " ★ Winner" if name == "Random Forest" else ""
+    
+    ax.set_title(f"Confusion Matrix — {name}{title_extra}\nAccuracy: {acc_val:.2f}% | F1: {f1_val:.2f}%", fontsize=12, fontweight='bold', color='#00002A', pad=14)
+    tick_marks = np.arange(len(classes))
+    ax.set_xticks(tick_marks)
+    ax.set_xticklabels(classes, fontsize=10, fontweight='semibold')
+    ax.set_yticks(tick_marks)
+    ax.set_yticklabels(classes, fontsize=10, fontweight='semibold')
+    
+    thresh = cm.max() / 2.
+    total = cm.sum()
+    for r in range(cm.shape[0]):
+        for c in range(cm.shape[1]):
+            cnt = cm[r, c]
+            pct = (cnt / total) * 100
+            ax.text(c, r, f"{cnt:,}\n({pct:.1f}%)",
+                    ha="center", va="center",
+                    color="white" if cnt > thresh else "#00002A",
+                    fontsize=12, fontweight='bold')
+                    
+    ax.set_ylabel('Actual Ground Truth', fontsize=11, fontweight='bold', color='#00002A')
+    ax.set_xlabel('Predicted Class', fontsize=11, fontweight='bold', color='#00002A')
+    cbar = plt.colorbar(im, ax=ax, fraction=0.046, pad=0.04)
+    cbar.ax.tick_params(labelsize=9)
+    plt.tight_layout()
+    cm_single_path = os.path.join(output_dir, f"confusion_matrix_{clean_name}.png")
+    plt.savefig(cm_single_path, dpi=300)
+    plt.close()
+    print(f"📊 Single Confusion Matrix saved: {cm_single_path}")
+
+# Standalone Individual ROC Curves (1 image per model)
+for name, (fpr, tpr, auc_val) in roc_curves.items():
+    fig, ax = plt.subplots(figsize=(6.5, 5.5), dpi=300)
+    clean_name = name.lower().replace(' ', '_')
+    ax.plot(fpr, tpr, label=f"{name} (AUC = {auc_val*100:.2f}%)", color=palette[name], linewidth=2.8)
+    ax.plot([0, 1], [0, 1], 'k:', alpha=0.35, label='Random Chance (50.0%)')
+    ax.set_xlim([-0.01, 1.0])
+    ax.set_ylim([0.0, 1.03])
+    ax.set_xlabel('False Positive Rate (1 - Specificity)', fontsize=10.5, fontweight='bold', color='#00002A')
+    ax.set_ylabel('True Positive Rate (Sensitivity / Recall)', fontsize=10.5, fontweight='bold', color='#00002A')
+    ax.set_title(f"ROC Curve — {name}\nAUC = {auc_val*100:.2f}% (Test N=20,000)", fontsize=12, fontweight='bold', color='#00002A', pad=14)
+    ax.legend(loc="lower right", frameon=True, facecolor='#F8FAFC', edgecolor='#D2DFEB', fontsize=10)
+    ax.grid(True, linestyle='--', alpha=0.5)
+    plt.tight_layout()
+    roc_single_path = os.path.join(output_dir, f"roc_curve_{clean_name}.png")
+    plt.savefig(roc_single_path, dpi=300)
+    plt.close()
+    print(f"📈 Single ROC Curve saved: {roc_single_path}")
 
 # Save Raw CSV
 csv_results_path = os.path.join(output_dir, 'model_benchmark_results.csv')
@@ -413,14 +508,26 @@ XGBoost & {xgb_row['Accuracy']*100:.2f} & {xgb_row['Precision']*100:.2f} & {xgb_
 ---
 
 ## 5. Artifact Files on Disk & Git
-- All-in-One Dashboard Figure: `research_charts/all_in_one_model_comparison.png`
-- Standalone Bar Chart: `research_charts/model_comparison_chart.png`
-- Standalone ROC Curve: `research_charts/roc_curves_comparison.png`
+### All-in-One Dashboard:
+- All-in-One Unified Figure: `research_charts/all_in_one_model_comparison.png`
+
+### Individual Single Images:
+- Standalone Comparative Bar Chart: `research_charts/model_comparison_chart.png`
+- Standalone ROC Curves (Combined): `research_charts/roc_curves_comparison.png`
+- Standalone 3-Panel Confusion Matrices: `research_charts/confusion_matrices_comparison.png`
+- Single Confusion Matrix — Random Forest: `research_charts/confusion_matrix_random_forest.png`
+- Single Confusion Matrix — XGBoost: `research_charts/confusion_matrix_xgboost.png`
+- Single Confusion Matrix — Logistic Regression: `research_charts/confusion_matrix_logistic_regression.png`
+- Single ROC Curve — Random Forest: `research_charts/roc_curve_random_forest.png`
+- Single ROC Curve — XGBoost: `research_charts/roc_curve_xgboost.png`
+- Single ROC Curve — Logistic Regression: `research_charts/roc_curve_logistic_regression.png`
+
+### Data & Scripts:
 - Benchmark Results CSV: `research_charts/model_benchmark_results.csv`
-- Script: `train_and_compare_models.py`
+- Benchmark & Plotting Script: `train_and_compare_models.py`
 """)
 
 print(f"📄 Markdown Research Report saved to: {md_report_path}")
 print("=" * 85)
-print("🎉 BENCHMARK AND ALL-IN-ONE ONE-PAGE COMPARISON DASHBOARD COMPLETE!")
+print("🎉 BENCHMARK AND SINGLE INDIVIDUAL IMAGES GENERATION COMPLETE!")
 print("=" * 85)
